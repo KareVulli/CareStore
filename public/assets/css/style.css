@@ -1,0 +1,55 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Open Sans', sans-serif;
+}
+
+*, *:before, *:after {
+    box-sizing: border-box;
+}
+
+.navbar {
+    border-bottom: 1px solid gray;
+    padding: 1rem;
+}
+
+.navbar .navbar-item {
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+    padding-right: 1rem;
+}
+
+.navbar .navbar-logo {
+    height: 3rem;
+}
+
+.products {
+    margin-top: 2rem;
+}
+
+.products .product {
+    margin: 1rem;
+    padding: 1rem;
+    box-shadow: 0px 0px 7px 0px rgba(0,0,0,0.4);
+}
+
+.products .product:hover {
+    box-shadow: 0px 0px 15px 0px rgba(0,0,0,0.4);
+}
+
+.product .product-logo {
+    max-width: 100%;
+    height: auto;
+    max-height: 5rem;
+}
+
+.product .product-title {
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
