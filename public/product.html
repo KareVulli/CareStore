@@ -28,7 +28,8 @@
         <h1>Toote leht!</h1>
     </div>
     <script>
-        alert('Hello world')
+        let params = new URLSearchParams(window.location.search)
+        alert('Toode: ' + params.get('title') + '\nHind: ' + params.get('price') + '\nPildi url: ' + params.get('image'))
     </script>
 </body>
 </html>
