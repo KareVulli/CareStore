@@ -26,10 +26,8 @@
     </div>
     <div class="container">
         <h1>Toote leht!</h1>
+        <div id="product" class="product"></div>
     </div>
-    <script>
-        let params = new URLSearchParams(window.location.search)
-        alert('Toode: ' + params.get('title') + '\nHind: ' + params.get('price') + '\nPildi url: ' + params.get('image'))
-    </script>
+    <script src="assets/js/product.js"></script>
 </body>
 </html>
