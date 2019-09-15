@@ -1,5 +1,3 @@
-
-
 window.onload = () => {
     const params = new URLSearchParams(window.location.search)
     //alert('Toode: ' + params.get('title') + '\nHind: ' + params.get('price') + '\nPildi url: ' + params.get('image'))
@@ -26,5 +24,4 @@ window.onload = () => {
     container.append(imageElement);
     container.append(descriptionElement);
     container.append(priceElement);
-
 }
