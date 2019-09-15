@@ -8,9 +8,16 @@ html, body {
     box-sizing: border-box;
 }
 
+.navbar-container {
+    padding-bottom: 6rem;
+}
+
 .navbar {
     border-bottom: 1px solid gray;
     padding: 1rem;
+    position: fixed;
+    width: 100%;
+    background: white;
 }
 
 .navbar .navbar-item {

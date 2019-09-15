@@ -1,4 +1,4 @@
-const computers = [
+export const computers = [
     {
         "name":"Acer Aspire 5 Slim Laptop, 15.6\" Full HD IPS Display, AMD Ryzen 3 3200U, Vega 3 Graphics, 4GB DDR4, 128GB SSD, Backlit Keyboard, Windows 10 in S Mode, A515-43-R19L",
         "category":"Personal Computers",
@@ -225,7 +225,7 @@ const computers = [
     }
 ];
 
-const phones = [
+export const phones = [
     {
         "name":"Samsung Galaxy S9+ Unlocked - 64gb - Midnight Black - US Warranty (Renewed)",
         "category":"Midnight Black",
