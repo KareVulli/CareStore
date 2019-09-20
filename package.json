@@ -20,7 +20,9 @@
   },
   "homepage": "https://github.com/KareVulli/CareStore#readme",
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.6.0",
