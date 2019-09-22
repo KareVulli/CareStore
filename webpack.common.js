@@ -3,7 +3,7 @@ const CopyPlugin = require('copy-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
-    entry: './src/index.js',
+    entry: './src/index.jsx',
     output: {
         filename: 'main.js',
         path: path.resolve(__dirname, 'dist')
@@ -17,7 +17,7 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.js$/,
+                test: /\.jsx?$/,
                 exclude: /node_modules/,
                 use: {
                     loader: "babel-loader",
