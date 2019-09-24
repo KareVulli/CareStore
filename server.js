@@ -1,20 +1,19 @@
-const express = require('express')
-const path = require('path');
+import express from 'express';
+import path from 'path';
+
 const app = express();
 const port = process.env.PORT || 3000;
 
-//app.get('/', (req, res) => res.send('Hello World!'))
-
-app.listen(port, function () {
-    console.log('Server started on http://localhost:' + this.address().port);
+app.listen(port, () => {
+    console.log(`Server started on http://localhost: ${port}`);
 });
 
 app.use(express.static('dist'));
 
-app.get('/*', function (req, res) {
-    res.sendFile(path.join(__dirname, 'dist/index.html'), function (err) {
+app.get('/*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'dist/index.html'), (err) => {
         if (err) {
             res.status(500).send(err);
         }
-    })
-})
+    });
+});

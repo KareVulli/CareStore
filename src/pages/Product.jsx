@@ -1,16 +1,14 @@
 import React from 'react';
-import ItemsList from '../components/ItemsList.jsx';
-import { computers, phones } from '../productsList.js';
+import Header from '../components/Header';
 
-export default class Products extends React.Component {
-    constructor (props) {
-        super(props);
-    }
-
+export default class Product extends React.Component {
     render() {
         return (
-            <div className="container">
-                <h1>Product page</h1>
+            <div>
+                <Header key="header" />
+                <div className="container">
+                    <h1>Product page</h1>
+                </div>
             </div>
         );
     }

@@ -1,7 +1,6 @@
 export default () => {
-    const params = new URLSearchParams(window.location.search)
-    //alert('Toode: ' + params.get('title') + '\nHind: ' + params.get('price') + '\nPildi url: ' + params.get('image'))
-    
+    const params = new URLSearchParams(window.location.search);
+
     const container = document.getElementById('product');
 
     const titleElement = document.createElement('p');
@@ -17,7 +16,7 @@ export default () => {
     descriptionElement.classList.add('product-description');
 
     const priceElement = document.createElement('p');
-    priceElement.textContent = params.get('price') + ' €';
+    priceElement.textContent = `${params.get('price')} €`;
     priceElement.classList.add('product-price');
 
     container.append(titleElement);
