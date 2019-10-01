@@ -1,11 +1,19 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import {Link} from 'react-router-dom';
 
 export default class Item extends React.Component {
+    static propTypes = {
+        id: PropTypes.number.isRequired,
+        image: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
+        price: PropTypes.number.isRequired
+    };
+
     render() {
         return (
             <div className="product-container col-xs-12 col-sm-4">
-                <Link className="product row middle-xs" to="/product">
+                <Link className="product row middle-xs" to={`/product/${this.props.id}`}>
                     <div className="col-xs-4 end-xs">
                         <img className="product-logo" src={this.props.image} alt={this.props.name} />
                     </div>

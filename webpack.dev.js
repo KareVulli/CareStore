@@ -9,7 +9,10 @@ module.exports = merge(common, {
     devServer: {
       contentBase: path.resolve(__dirname, 'dist'),
       compress: true,
-      port: 3000,
-      historyApiFallback: true
+      port: 8080,
+      historyApiFallback: true,
+      proxy: {
+        '/api': 'http://localhost:3000'
+      }
     }
 });

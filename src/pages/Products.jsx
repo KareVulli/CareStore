@@ -1,37 +1,48 @@
 import React from 'react';
 import ItemsList from '../components/ItemsList';
-import { computers, phones } from '../productsList';
 import Header from '../components/Header';
 
 export default class Products extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            products: [...computers, ...phones]
+            products: []
         };
 
         this.onCategoryChanged = this.onCategoryChanged.bind(this);
     }
 
+    componentDidMount() {
+        this.loadProducts();
+    }
+
     onCategoryChanged(e) {
         switch (e.target.value) {
         case 'computers':
-            this.setState({
-                products: computers
-            });
+            this.loadProducts('computers');
             break;
         case 'phones':
-            this.setState({
-                products: phones
-            });
+            this.loadProducts('phones');
             break;
         case 'all':
         default:
-            this.setState({
-                products: [...computers, ...phones]
-            });
+            this.loadProducts();
             break;
         }
+    }
+
+    loadProducts(category = null) {
+        let url = '/api/products';
+        if (category) {
+            url += `/${category}`;
+        }
+        fetch(url)
+            .then((response) => response.json())
+            .then((products) => {
+                this.setState({
+                    products
+                });
+            });
     }
 
     render() {
