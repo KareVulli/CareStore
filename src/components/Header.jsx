@@ -1,5 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faShoppingCart, faUserCircle} from '@fortawesome/free-solid-svg-icons';
 
 export default class Header extends React.Component {
     render() {
@@ -13,8 +15,14 @@ export default class Header extends React.Component {
                             </Link>
                         </div>
                         <div className="col-xs col-sm-6 end-xs">
-                            <Link className="navbar-item" to="/">Log in / Sign-up</Link>
-                            <Link className="navbar-item" to="/">Ostukorv</Link>
+                            <Link className="navbar-item" to="/">
+                                <FontAwesomeIcon className="navbar-icon" icon={faUserCircle} size="lg" />
+                                Log in
+                            </Link>
+                            <Link className="navbar-item" to="/">
+                                <FontAwesomeIcon className="navbar-icon" icon={faShoppingCart} size="lg" />
+                                Shopping cart
+                            </Link>
                         </div>
                     </div>
                 </div>

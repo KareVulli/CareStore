@@ -1,6 +1,5 @@
 import React from 'react';
 import ItemsList from '../components/ItemsList';
-import Header from '../components/Header';
 
 export default class Products extends React.Component {
     constructor(props) {
@@ -48,7 +47,6 @@ export default class Products extends React.Component {
     render() {
         return (
             <div>
-                <Header key="header" />
                 <div className="container">
                     <div className="row">
                         <div className="col-xs">

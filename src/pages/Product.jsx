@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Header from '../components/Header';
 
 export default class Product extends React.Component {
     static propTypes = {
@@ -36,7 +35,6 @@ export default class Product extends React.Component {
     render() {
         return (
             <div>
-                <Header key="header" />
                 <div className="container">
                     <div className="product">
                         <p className="product-title">{this.state.product.name}</p>
