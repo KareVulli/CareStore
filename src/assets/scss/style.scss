@@ -1,3 +1,5 @@
+@import "variables";
+
 html, body {
     margin: 0;
     padding: 0;
@@ -44,7 +46,7 @@ select {
 
         .navbar-icon {
             margin-right: 0.5rem;
-            color: rgb(0, 119, 255);
+            color: $primaryColor;
         }
     }
 
@@ -84,4 +86,57 @@ select {
         white-space: nowrap;
     }
 
+}
+
+.no-categories {
+    text-align: center;
+}
+
+.checkbox {
+    label {
+        position: relative;
+        padding-left: 1.8rem;
+        padding-right: 1rem;
+    }
+
+    label::before{
+        content: "";
+        display: inline-block;
+        position: absolute;
+
+        top: 0;
+        left: 0;
+        height: 1.5rem;
+        width: 1.5rem;
+        
+        border: 2px solid $primaryColor;
+        border-radius: 0.23em;
+    }
+
+    label::after {
+        display: inline-block;
+        position: absolute;
+
+        left: 0.4rem;
+        top: 0.4rem;
+        height: 0.5rem;
+        width: 0.7rem;
+        border-left: 2px solid;
+        border-bottom: 2px solid;
+        
+        
+        transform: rotate(-45deg);
+    }
+
+    input[type="checkbox"] {
+        display: none;
+    }
+
+    input[type="checkbox"] + label::after {
+        content: none;
+    }
+
+    input[type="checkbox"]:checked + label::after {
+        content: "";
+    }
 }

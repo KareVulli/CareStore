@@ -514,9 +514,9 @@ const products = [
 ];
 
 
-function getProducts(category = null) {
-    if (category) {
-        return products.filter((product) => product.category === category);
+function getProducts(categories = null) {
+    if (categories) {
+        return products.filter((product) => categories.includes(product.category));
     }
     return products;
 }

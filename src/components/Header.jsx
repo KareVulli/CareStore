@@ -17,11 +17,11 @@ export default class Header extends React.Component {
                         <div className="col-xs col-sm-6 end-xs">
                             <Link className="navbar-item" to="/">
                                 <FontAwesomeIcon className="navbar-icon" icon={faUserCircle} size="lg" />
-                                Log in
+                                Logi sisse
                             </Link>
                             <Link className="navbar-item" to="/">
                                 <FontAwesomeIcon className="navbar-icon" icon={faShoppingCart} size="lg" />
-                                Shopping cart
+                                Ostukorv
                             </Link>
                         </div>
                     </div>

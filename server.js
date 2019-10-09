@@ -12,7 +12,10 @@ app.listen(port, () => {
 app.use(express.static('dist'));
 
 app.get('/api/products/:category?', (req, res) => {
-    res.json(getProducts(req.params.category));
+    if (!req.query.categories) {
+        res.json([]);
+    }
+    res.json(getProducts(req.query.categories));
 });
 
 app.get('/api/product/:product(\\d+)', (req, res) => {
