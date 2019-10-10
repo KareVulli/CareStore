@@ -1,16 +1,25 @@
 import React from 'react';
 import ItemsList from '../components/ItemsList';
 import Checkbox from '../components/Checkbox';
+import Dropdown from '../components/Dropdown';
 
 export default class Products extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             products: [],
-            selectedCategories: ['phones']
+            selectedCategories: ['phones'],
+            sortOptions: [
+                {key: 'name|asc', name: 'Nimi kasvavalt'},
+                {key: 'name|desc', name: 'Nimi kahanevalt'},
+                {key: 'price|asc', name: 'Hind kasvavalt'},
+                {key: 'price|desc', name: 'Hind kahanevalt'}
+            ],
+            sortBy: 'name|asc'
         };
 
         this.onCategoryChanged = this.onCategoryChanged.bind(this);
+        this.onSortChanged = this.onSortChanged.bind(this);
     }
 
     componentDidMount() {
@@ -18,7 +27,8 @@ export default class Products extends React.Component {
     }
 
     componentDidUpdate(_prevProps, prevState) {
-        if (prevState.selectedCategories !== this.state.selectedCategories) {
+        if (prevState.selectedCategories !== this.state.selectedCategories
+            || prevState.sortBy !== this.state.sortBy) {
             this.loadProducts();
         }
     }
@@ -27,10 +37,18 @@ export default class Products extends React.Component {
         this.toggleCategory(e.target.name);
     }
 
+    onSortChanged(option) {
+        console.log(option);
+        this.setState({
+            sortBy: option.key
+        });
+    }
+
     loadProducts() {
-        let url = '/api/products';
+        const sort = this.state.sortBy.split('|');
+        let url = `/api/products?sort=${sort[0]}&direction=${sort[1]}`;
         if (this.state.selectedCategories.length) {
-            url += `?categories=${this.state.selectedCategories.join(',')}`;
+            url += `&categories=${this.state.selectedCategories.join(',')}`;
         }
         fetch(url)
             .then((response) => response.json())
@@ -69,21 +87,34 @@ export default class Products extends React.Component {
         return (
             <div>
                 <div className="container">
-                    <div className="row">
-                        <div className="col-xs">
-                            <p>Kategooriad:</p>
+                    <div className="row middle-xs">
+                        <div className="col-xs-auto">
+                            <p className="category-title">Kategooriad:</p>
                         </div>
-                    </div>
-                    <div className="row">
-                        <div className="col-xs-2">
+                        <div className="col-xs-auto">
                             <Checkbox text="Arvutid" name="computers" checked={this.isChecked('computers')} onChange={this.onCategoryChanged} />
                         </div>
-                        <div className="col-xs-2">
+                        <div className="col-xs-auto">
                             <Checkbox text="Telefonid" name="phones" checked={this.isChecked('phones')} onChange={this.onCategoryChanged} />
+                        </div>
+                        <div className="col-xs end-xs">
+                            <span>Sorteeri:</span>
+                        </div>
+                        <div className="col-xs-3">
+                            <Dropdown
+                                options={this.state.sortOptions}
+                                value={this.state.sortBy}
+                                onChange={this.onSortChanged}
+                            />
+                        </div>
+                    </div>
+                    <div className="row middle-xs">
+                        <div className="col-xs end-xs">
+                            <p>{`Leitud tooteid: ${this.state.products.length}`}</p>
                         </div>
                     </div>
                     {noCategory}
-                    <ItemsList items={this.state.products} />
+                    <ItemsList items={this.state.products} onChange={this.onSortChanged} />
                 </div>
             </div>
         );

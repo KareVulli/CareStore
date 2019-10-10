@@ -11,11 +11,15 @@ app.listen(port, () => {
 
 app.use(express.static('dist'));
 
-app.get('/api/products/:category?', (req, res) => {
+app.get('/api/products', (req, res) => {
     if (!req.query.categories) {
         res.json([]);
     }
-    res.json(getProducts(req.query.categories));
+    res.json(getProducts(
+        req.query.categories.split(','),
+        req.query.sort || 'name',
+        req.query.direction === 'desc'
+    ));
 });
 
 app.get('/api/product/:product(\\d+)', (req, res) => {

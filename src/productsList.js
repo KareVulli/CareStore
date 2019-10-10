@@ -514,11 +514,25 @@ const products = [
 ];
 
 
-function getProducts(categories = null) {
-    if (categories) {
-        return products.filter((product) => categories.includes(product.category));
+function getProducts(categories = [], sortBy = 'name', desc = false) {
+    let filtered = products.filter((product) => categories.includes(product.category));
+    switch (sortBy) {
+    case 'price':
+        if (desc) {
+            filtered = filtered.sort((a, b) => b.price - a.price);
+        } else {
+            filtered = filtered.sort((a, b) => a.price - b.price);
+        }
+        break;
+    case 'name':
+    default:
+        if (desc) {
+            filtered = filtered.sort((a, b) => b.name.localeCompare(a.name));
+        } else {
+            filtered = filtered.sort((a, b) => a.name.localeCompare(b.name));
+        }
     }
-    return products;
+    return filtered;
 }
 
 function findProduct(id) {
