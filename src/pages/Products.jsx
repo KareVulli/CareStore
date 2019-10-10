@@ -88,19 +88,15 @@ export default class Products extends React.Component {
             <div>
                 <div className="container">
                     <div className="row middle-xs">
-                        <div className="col-xs-auto">
-                            <p className="category-title">Kategooriad:</p>
-                        </div>
-                        <div className="col-xs-auto">
+                        <div className="col-xs-12 col-sm">
+                            <span className="category-title">Kategooriad:</span>
                             <Checkbox text="Arvutid" name="computers" checked={this.isChecked('computers')} onChange={this.onCategoryChanged} />
-                        </div>
-                        <div className="col-xs-auto">
                             <Checkbox text="Telefonid" name="phones" checked={this.isChecked('phones')} onChange={this.onCategoryChanged} />
                         </div>
-                        <div className="col-xs end-xs">
+                        <div className="col-xs-3 col-sm-2 end-sm">
                             <span>Sorteeri:</span>
                         </div>
-                        <div className="col-xs-3">
+                        <div className="col-xs-9 col-sm-4 col-md-3">
                             <Dropdown
                                 options={this.state.sortOptions}
                                 value={this.state.sortBy}

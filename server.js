@@ -1,30 +1,32 @@
+import bodyParser from 'body-parser';
+import mongoose from 'mongoose';
 import express from 'express';
+import dotenv from 'dotenv';
 import path from 'path';
-import {getProducts, findProduct} from './src/productsList';
+import productRoutes from './src/routes/products';
 
+dotenv.config();
 const app = express();
 const port = process.env.PORT || 3000;
+
+
+mongoose.connect(process.env.MONGODB_URL, {useNewUrlParser: true, useUnifiedTopology: true});
+const db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', () => {
+    console.log('db connected!');
+});
 
 app.listen(port, () => {
     console.log(`Server started on http://localhost:${port}`);
 });
 
+
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json());
 app.use(express.static('dist'));
 
-app.get('/api/products', (req, res) => {
-    if (!req.query.categories) {
-        res.json([]);
-    }
-    res.json(getProducts(
-        req.query.categories.split(','),
-        req.query.sort || 'name',
-        req.query.direction === 'desc'
-    ));
-});
-
-app.get('/api/product/:product(\\d+)', (req, res) => {
-    res.json(findProduct(parseInt(req.params.product, 10)));
-});
+app.use('/api', productRoutes);
 
 app.get('/*', (req, res) => {
     res.sendFile(path.join(__dirname, 'dist/index.html'), (err) => {

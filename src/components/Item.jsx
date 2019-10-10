@@ -4,7 +4,7 @@ import {Link} from 'react-router-dom';
 
 export default class Item extends React.Component {
     static propTypes = {
-        id: PropTypes.number.isRequired,
+        id: PropTypes.string.isRequired,
         image: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired,
         price: PropTypes.number.isRequired

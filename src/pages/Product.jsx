@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 export default class Product extends React.Component {
     static propTypes = {
-        match: PropTypes.array.isRequired
+        match: PropTypes.object.isRequired
     };
 
     constructor(props) {
