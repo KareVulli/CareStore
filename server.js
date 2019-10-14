@@ -2,6 +2,7 @@ import bodyParser from 'body-parser';
 import express from 'express';
 import path from 'path';
 import productRoutes from './src/routes/products';
+import userRoutes from './src/routes/users';
 import 'dotenv/config';
 import './src/utils/db';
 
@@ -21,6 +22,7 @@ app.use(express.static('dist', {
 }));
 
 app.use('/api', productRoutes);
+app.use('/api', userRoutes);
 
 app.get('/*', (req, res) => {
     res.sendFile(path.join(__dirname, 'dist/index.html'), (err) => {

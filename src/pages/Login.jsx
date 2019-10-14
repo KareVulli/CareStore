@@ -40,7 +40,7 @@ export default class Login extends React.Component {
                                     <Button title="Logi sisse" type="submit" />
                                 </div>
                                 <div className="col-xs-12 center-xs col-sm-8 end-sm padding-y-2">
-                                    <Link className="link" to="/login">Pole kasutajat?</Link>
+                                    <Link className="link" to="/signup">Pole kasutajat?</Link>
                                     <Link className="link" to="/login">Unustasin parooli...</Link>
                                 </div>
                             </div>
