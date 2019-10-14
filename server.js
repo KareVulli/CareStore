@@ -1,21 +1,13 @@
 import bodyParser from 'body-parser';
-import mongoose from 'mongoose';
 import express from 'express';
-import dotenv from 'dotenv';
 import path from 'path';
 import productRoutes from './src/routes/products';
+import 'dotenv/config';
+import './src/utils/db';
 
-dotenv.config();
+
 const app = express();
 const port = process.env.PORT || 3000;
-
-
-mongoose.connect(process.env.MONGODB_URL, {useNewUrlParser: true, useUnifiedTopology: true});
-const db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', () => {
-    console.log('db connected!');
-});
 
 app.listen(port, () => {
     console.log(`Server started on http://localhost:${port}`);
@@ -24,7 +16,9 @@ app.listen(port, () => {
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
-app.use(express.static('dist'));
+app.use(express.static('dist', {
+    maxAge: '1w'
+}));
 
 app.use('/api', productRoutes);
 

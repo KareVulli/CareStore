@@ -1,1 +1,19 @@
-$primaryColor: rgb(0, 119, 255);
+$primaryColor: rgb(0, 217, 255);
+
+$background: rgb(42, 42, 42);
+$background-light: rgb(65, 65, 65);
+
+$foreground: rgb(223, 223, 223);
+
+$hover-alpha: 0.2;
+
+
+$spacer: 1rem;
+$spacers: (
+    0: 0,
+    1: ($spacer * .25),
+    2: ($spacer * .5),
+    3: $spacer,
+    4: ($spacer * 1.5),
+    5: ($spacer * 3)
+);

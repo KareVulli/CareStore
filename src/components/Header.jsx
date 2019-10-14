@@ -15,13 +15,13 @@ export default class Header extends React.Component {
                             </Link>
                         </div>
                         <div className="col-xs col-sm-6 end-xs">
-                            <Link className="navbar-item" to="/">
+                            <Link className="navbar-item" to="/login">
                                 <FontAwesomeIcon className="navbar-icon" icon={faUserCircle} size="lg" />
-                                Logi sisse
+                                <span>Logi sisse</span>
                             </Link>
                             <Link className="navbar-item" to="/">
                                 <FontAwesomeIcon className="navbar-icon" icon={faShoppingCart} size="lg" />
-                                Ostukorv
+                                <span>Ostukorv</span>
                             </Link>
                         </div>
                     </div>

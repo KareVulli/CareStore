@@ -1,20 +1,33 @@
 @import "variables";
 @import "dropdown";
 @import "checkbox";
+@import "form";
+@import "button";
+@import "card";
+@import "spacings";
 
 html, body {
     margin: 0;
     padding: 0;
-    font-family: 'Open Sans', sans-serif;
+}
+
+body {
+    background-color: $background;
+    color: $foreground;
 }
 
 *, *:before, *:after {
     box-sizing: border-box;
+    font-family: 'Open Sans', sans-serif;
 }
 
 a {
     text-decoration: none;
-    color: black;
+    color: $foreground;
+}
+
+h1, h2, h3, h4, h5 {
+    font-weight: normal;
 }
 
 .container {
@@ -26,23 +39,66 @@ a {
     padding-bottom: 6rem;
 }
 
+
+
+a.link {
+    position: relative;
+    font-size: 0.8rem;
+    margin: 0.2rem 0.5rem;
+
+    &:after {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        display: block;
+        content: '';
+        border-bottom: 1px solid $primaryColor;
+        transform: scaleX(0);  
+        transition: transform .1s ease-in-out;
+    }
+
+    &:hover:after {
+        transform: scaleX(1);
+    }
+}
+
 .navbar {
-    border-bottom: 1px solid gray;
     padding: 1rem;
     position: fixed;
     width: 100%;
-    background: white;
+    background-color: $background-light;
     z-index: 1;
 
     .navbar-item {
         text-decoration: none;
-        color: black;
-        font-weight: bold;
+        color: $foreground;
         padding-right: 1rem;
 
         .navbar-icon {
             margin-right: 0.5rem;
             color: $primaryColor;
+        }
+    }
+
+    .navbar-item span {
+        position: relative;
+        padding: 0.1rem 0;
+
+        &:after {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            display: block;
+            content: '';
+            border-bottom: 1px solid $primaryColor;
+            transform: scaleX(0);  
+            transition: transform .1s ease-in-out;
+        }
+
+        &:hover:after {
+            transform: scaleX(1);
         }
     }
 
@@ -58,11 +114,12 @@ a {
     .product {
         margin: 1rem 0;
         padding: 1rem;
-        box-shadow: 0px 0px 7px 0px rgba(0,0,0,0.4);
+        border: 1px solid $background-light;
+        box-shadow: 0px 0px 0px 0px rgba(0,0,0,0.4);
     }
 
     .product:hover {
-        box-shadow: 0px 0px 15px 0px rgba(0,0,0,0.4);
+        box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.4);
     }
 }
 

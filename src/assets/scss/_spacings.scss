@@ -1,0 +1,26 @@
+// Credits: https://rimdev.io/letting-sass-build-your-utility-classes/
+
+$directions: left, right, top, bottom;
+$props: margin, padding;
+
+// set key value pairs for margin and padding
+@each $prop in $props {
+
+    // loop through the spacers we've set
+    @each $unit, $rem in $spacers {
+
+        @each $direction in $directions {
+            .#{$prop}-#{$direction}-#{$unit} {
+                #{$prop}-#{$direction}: #{$rem};
+            }
+        }
+        
+        // add in x-axis and y-axis spacing
+        .#{$prop}-x-#{$unit} {
+            #{$prop}: 0 $rem;
+        }
+        .#{$prop}-y-#{$unit} {
+            #{$prop}: $rem 0;
+        }
+    }
+  }

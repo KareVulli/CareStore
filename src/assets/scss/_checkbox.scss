@@ -3,7 +3,7 @@
 
     label {
         position: relative;
-        padding-left: 1.8rem;
+        padding-left: 1.9rem;
         padding-right: 1rem;
     }
 
@@ -17,7 +17,7 @@
         height: 1.5rem;
         width: 1.5rem;
         
-        border: 2px solid $primaryColor;
+        border: 1px solid $primaryColor;
     }
 
     label::after {
@@ -33,6 +33,10 @@
         
         
         transform: rotate(-45deg);
+    }
+
+    label:hover::before {
+        background-color: rgba($primaryColor, $hover-alpha);
     }
 
     input[type="checkbox"] {

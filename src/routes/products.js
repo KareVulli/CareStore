@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import express from 'express';
 import Product from '../models/product';
 
@@ -47,8 +48,22 @@ router.post('/products', async (req, res) => {
     }
 });
 
+router.delete('/products', async (req, res) => {
+    await Product.deleteMany({});
+    res.json({
+        message: 'Products purged'
+    });
+});
+
 router.get('/product/:product', async (req, res) => {
     res.json(await Product.findOne({_id: req.params.product}));
+});
+
+router.delete('/product/:product', async (req, res) => {
+    await Product.findByIdAndRemove(req.params.product);
+    res.json({
+        message: 'Product deleted'
+    });
 });
 
 export default router;
