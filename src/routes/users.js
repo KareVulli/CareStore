@@ -12,7 +12,7 @@ router.get('/users', async (req, res) => {
 router.post('/users', async (req, res) => {
     try {
         const hash = bcrypt.hashSync(req.body.password, 10);
-        req.body.passwords = [{hash: hash}];
+        req.body.password = hash;
         const doc = new User(req.body);
         await doc.save();
         res.status(201).json({
@@ -33,7 +33,21 @@ router.delete('/users', async (req, res) => {
 });
 
 router.get('/users/by-email', async (req, res) => {
-    res.json(await User.findOne({email: req.query.email}));
+    const user = await User.findOne({email: req.query.email});
+    if (!user) {
+        res.status(404).json({found: false, message: 'No user with given email exists.'});
+    } else {
+        res.json({found: true, message: 'User with given email already exists'});
+    }
+});
+
+router.post('/users/login', async (req, res) => {
+    const user = await User.findOne({email: req.body.email});
+    if (user && bcrypt.compareSync(req.body.password, user.password)) {
+        res.json({message: 'Logged in successfully', user: user});
+    } else {
+        res.status(400).json({message: 'Invalid email or password'});
+    }
 });
 
 router.get('/users/:user', async (req, res) => {
