@@ -4,14 +4,17 @@ import {connect} from 'react-redux';
 import ItemsList from '../components/ItemsList';
 import Checkbox from '../components/Checkbox';
 import Dropdown from '../components/Dropdown';
-import {loadProducts, toggleCategory} from '../actions/products';
+import {loadProducts, toggleCategory, setSortBy} from '../actions/products';
 
 class Products extends React.Component {
     static propTypes = {
         selectedCategories: PropTypes.array.isRequired,
         products: PropTypes.array.isRequired,
+        sortBy: PropTypes.string.isRequired,
+
         loadProducts: PropTypes.func.isRequired,
-        toggleCategory: PropTypes.func.isRequired
+        toggleCategory: PropTypes.func.isRequired,
+        setSortBy: PropTypes.func.isRequired
     };
 
     constructor(props) {
@@ -22,8 +25,7 @@ class Products extends React.Component {
                 {key: 'name|desc', name: 'Nimi kahanevalt'},
                 {key: 'price|asc', name: 'Hind kasvavalt'},
                 {key: 'price|desc', name: 'Hind kahanevalt'}
-            ],
-            sortBy: 'name|asc'
+            ]
         };
 
         this.onCategoryChanged = this.onCategoryChanged.bind(this);
@@ -39,10 +41,7 @@ class Products extends React.Component {
     }
 
     onSortChanged(option) {
-        console.log(option);
-        this.setState({
-            sortBy: option.key
-        });
+        this.props.setSortBy(option.key);
     }
 
     isChecked(category) {
@@ -69,7 +68,7 @@ class Products extends React.Component {
                         <div className="col-xs-9 col-sm-4 col-md-3">
                             <Dropdown
                                 options={this.state.sortOptions}
-                                value={this.state.sortBy}
+                                value={this.props.sortBy}
                                 onChange={this.onSortChanged}
                             />
                         </div>
@@ -88,13 +87,15 @@ class Products extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-    products: state.products,
-    selectedCategories: state.selectedCategories
+    products: state.products.products,
+    selectedCategories: state.products.selectedCategories,
+    sortBy: state.products.sortBy
 });
 
 const mapDispatchToProps = (dispatch) => ({
     loadProducts: () => dispatch(loadProducts()),
-    toggleCategory: (category) => dispatch(toggleCategory(category))
+    toggleCategory: (category) => dispatch(toggleCategory(category)),
+    setSortBy: (sortBy) => dispatch(setSortBy(sortBy))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Products);
