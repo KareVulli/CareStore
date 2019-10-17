@@ -1,10 +1,10 @@
 import bodyParser from 'body-parser';
 import express from 'express';
 import path from 'path';
-import productRoutes from './src/routes/products';
-import userRoutes from './src/routes/users';
+import productRoutes from './routes/products';
+import userRoutes from './routes/users';
 import 'dotenv/config';
-import './src/utils/db';
+import './utils/db';
 
 
 const app = express();

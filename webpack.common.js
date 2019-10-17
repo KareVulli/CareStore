@@ -6,7 +6,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-    entry: './src/index.jsx',
+    entry: './src/client/index.jsx',
     output: {
         filename: '[name].[contenthash].js',
         path: path.resolve(__dirname, 'dist')

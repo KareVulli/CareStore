@@ -1,14 +1,22 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
 import ItemsList from '../components/ItemsList';
 import Checkbox from '../components/Checkbox';
 import Dropdown from '../components/Dropdown';
+import {loadProducts, toggleCategory} from '../actions/products';
 
-export default class Products extends React.Component {
+class Products extends React.Component {
+    static propTypes = {
+        selectedCategories: PropTypes.array.isRequired,
+        products: PropTypes.array.isRequired,
+        loadProducts: PropTypes.func.isRequired,
+        toggleCategory: PropTypes.func.isRequired
+    };
+
     constructor(props) {
         super(props);
         this.state = {
-            products: [],
-            selectedCategories: ['phones'],
             sortOptions: [
                 {key: 'name|asc', name: 'Nimi kasvavalt'},
                 {key: 'name|desc', name: 'Nimi kahanevalt'},
@@ -23,18 +31,11 @@ export default class Products extends React.Component {
     }
 
     componentDidMount() {
-        this.loadProducts();
-    }
-
-    componentDidUpdate(_prevProps, prevState) {
-        if (prevState.selectedCategories !== this.state.selectedCategories
-            || prevState.sortBy !== this.state.sortBy) {
-            this.loadProducts();
-        }
+        this.props.loadProducts();
     }
 
     onCategoryChanged(e) {
-        this.toggleCategory(e.target.name);
+        this.props.toggleCategory(e.target.name);
     }
 
     onSortChanged(option) {
@@ -44,44 +45,13 @@ export default class Products extends React.Component {
         });
     }
 
-    loadProducts() {
-        const sort = this.state.sortBy.split('|');
-        let url = `/api/products?sort=${sort[0]}&direction=${sort[1]}`;
-        if (this.state.selectedCategories.length) {
-            url += `&categories=${this.state.selectedCategories.join(',')}`;
-        }
-        fetch(url)
-            .then((response) => response.json())
-            .then((products) => {
-                this.setState({
-                    products
-                });
-            });
-    }
-
-    toggleCategory(category) {
-        this.setState((state) => {
-            const selection = [...state.selectedCategories];
-            const index = selection.indexOf(category);
-            if (index > -1) {
-                selection.splice(index, 1);
-            } else {
-                selection.push(category);
-            }
-
-            return {
-                selectedCategories: selection
-            };
-        });
-    }
-
     isChecked(category) {
-        return this.state.selectedCategories.includes(category);
+        return this.props.selectedCategories.includes(category);
     }
 
     render() {
         let noCategory = null;
-        if (!this.state.selectedCategories.length) {
+        if (!this.props.selectedCategories.length) {
             noCategory = <p className="no-categories">Pole ühtegi kategooriat valitud :(</p>;
         }
         return (
@@ -106,13 +76,25 @@ export default class Products extends React.Component {
                     </div>
                     <div className="row middle-xs">
                         <div className="col-xs end-xs">
-                            <p>{`Leitud tooteid: ${this.state.products.length}`}</p>
+                            <p>{`Leitud tooteid: ${this.props.products.length}`}</p>
                         </div>
                     </div>
                     {noCategory}
-                    <ItemsList items={this.state.products} onChange={this.onSortChanged} />
+                    <ItemsList items={this.props.products} onChange={this.onSortChanged} />
                 </div>
             </div>
         );
     }
 }
+
+const mapStateToProps = (state) => ({
+    products: state.products,
+    selectedCategories: state.selectedCategories
+});
+
+const mapDispatchToProps = (dispatch) => ({
+    loadProducts: () => dispatch(loadProducts()),
+    toggleCategory: (category) => dispatch(toggleCategory(category))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Products);
