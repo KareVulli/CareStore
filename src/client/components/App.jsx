@@ -16,8 +16,8 @@ export default class App extends React.Component {
             <Router key="router">
                 <Header key="header" />
                 <Route path="/login" exact component={Login} />
+                <Route path="/signup-success" exact component={SuccessfulSignup} />
                 <Route path="/signup" exact component={Signup} />
-                <Route path="/signup/success" exact component={SuccessfulSignup} />
                 <Route path="/profile" exact component={Profile} />
                 <Route path="/" exact component={Products} />
                 <Route path="/product/:product" exact component={Product} />

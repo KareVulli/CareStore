@@ -4,18 +4,25 @@ import {connect} from 'react-redux';
 import ItemsList from '../components/ItemsList';
 import Checkbox from '../components/Checkbox';
 import Dropdown from '../components/Dropdown';
-import {loadProducts, toggleCategory, setSortBy} from '../actions/products';
+import {
+    loadProducts, toggleCategory, setSortBy, FETCH_PRODUCTS
+} from '../actions/products';
 
 class Products extends React.Component {
     static propTypes = {
         selectedCategories: PropTypes.array.isRequired,
         products: PropTypes.array.isRequired,
         sortBy: PropTypes.string.isRequired,
+        productsRequest: PropTypes.object,
 
         loadProducts: PropTypes.func.isRequired,
         toggleCategory: PropTypes.func.isRequired,
         setSortBy: PropTypes.func.isRequired
     };
+
+    static defaultProps = {
+        productsRequest: null
+    }
 
     constructor(props) {
         super(props);
@@ -49,10 +56,11 @@ class Products extends React.Component {
     }
 
     render() {
-        let noCategory = null;
-        if (!this.props.selectedCategories.length) {
-            noCategory = <p className="no-categories">Pole ühtegi kategooriat valitud :(</p>;
+        let loading = false;
+        if (this.props.productsRequest && this.props.productsRequest.loading) {
+            loading = true;
         }
+
         return (
             <div>
                 <div className="container">
@@ -78,8 +86,7 @@ class Products extends React.Component {
                             <p>{`Leitud tooteid: ${this.props.products.length}`}</p>
                         </div>
                     </div>
-                    {noCategory}
-                    <ItemsList items={this.props.products} onChange={this.onSortChanged} />
+                    <ItemsList items={this.props.products} loading={loading} />
                 </div>
             </div>
         );
@@ -89,7 +96,8 @@ class Products extends React.Component {
 const mapStateToProps = (state) => ({
     products: state.products.products,
     selectedCategories: state.products.selectedCategories,
-    sortBy: state.products.sortBy
+    sortBy: state.products.sortBy,
+    productsRequest: state.requests[FETCH_PRODUCTS]
 });
 
 const mapDispatchToProps = (dispatch) => ({

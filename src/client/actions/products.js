@@ -1,8 +1,12 @@
 /* eslint-disable prefer-destructuring */
+import requestAction from '../utils/requestAction';
 
 export const SET_PRODUCTS = 'SET_PRODUCTS';
 export const TOGGLE_CATEGORY = 'TOGGLE_CATEGORY';
 export const SET_SORT_BY = 'SET_SORT_BY';
+
+export const FETCH_PRODUCTS = 'FETCH_PRODUCTS';
+
 
 export function setProducts(products) {
     return {type: SET_PRODUCTS, products};
@@ -25,10 +29,11 @@ export function loadProducts() {
         if (selectedCategories.length) {
             url += `&categories=${selectedCategories.join(',')}`;
         }
-        return fetch(url)
-            .then((response) => response.json())
-            .then((products) => {
-                dispatch(setProducts(products));
-            });
+        dispatch(requestAction({
+            url: url,
+            onSuccess: setProducts,
+            onFailure: () => {},
+            label: FETCH_PRODUCTS
+        }));
     };
 }

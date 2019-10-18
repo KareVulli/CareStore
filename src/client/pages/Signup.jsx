@@ -2,16 +2,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {withRouter} from 'react-router-dom';
+import {connect} from 'react-redux';
 import Input from '../components/Input';
 import Button from '../components/Button';
 import Checkbox from '../components/Checkbox';
+import {
+    register, checkEmail, FETCH_REGISTER
+} from '../actions/account';
 
 class Signup extends React.Component {
     static propTypes = {
-        /* match: PropTypes.object.isRequired,
-        location: PropTypes.object.isRequired, */
-        history: PropTypes.object.isRequired
+        emailUnique: PropTypes.bool,
+        registerRequest: PropTypes.object,
+
+        checkEmail: PropTypes.func.isRequired,
+        register: PropTypes.func.isRequired
     };
+
+    static defaultProps = {
+        emailUnique: null,
+        registerRequest: null
+    }
 
     constructor(props) {
         super(props);
@@ -21,13 +32,13 @@ class Signup extends React.Component {
             email: '',
             password: '',
             tos: false,
-            loading: false,
-            error: null
+            tosError: null
         };
 
         this.onChange = this.onChange.bind(this);
         this.onTosChecked = this.onTosChecked.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
+        this.onEmailBlur = this.onEmailBlur.bind(this);
     }
 
     onChange(field, value) {
@@ -36,47 +47,48 @@ class Signup extends React.Component {
         });
     }
 
+    onEmailBlur(field, value) {
+        this.props.checkEmail(value);
+    }
+
     onTosChecked(e) {
         this.setState({
-            tos: e.target.checked
+            tos: e.target.checked,
+            tosError: null
         });
     }
 
     onSubmit(event) {
         event.preventDefault();
-        if (this.state.loading) {
+        if (!this.state.tos) {
+            this.setState({
+                tosError: 'Palun nõustu kasutajatimgimustega'
+            });
             return;
         }
-        this.setState({
-            loading: true,
-            error: null
+        if (this.isLoading() || this.props.emailUnique !== true) {
+            return;
+        }
+        this.props.register({
+            firstname: this.state.firstname,
+            lastname: this.state.lastname,
+            email: this.state.email,
+            password: this.state.password
         });
-        fetch('/api/users', {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                firstname: this.state.firstname,
-                lastname: this.state.lastname,
-                email: this.state.email,
-                password: this.state.password
-            })
-        }).then((response) => {
-            if (response.status !== 201) {
-                throw new Error('Viga registeerimisel');
-            }
-            return response.json();
-        }).then(() => {
-            this.props.history.push('/signup/success');
-            console.log('history push');
-        }).catch((error) => {
-            this.setState({
-                loading: false,
-                error: error.message
-            });
-        });
+    }
+
+    getError() {
+        if (this.props.registerRequest && this.props.registerRequest.error) {
+            return this.props.registerRequest.error.message;
+        }
+        return false;
+    }
+
+    isLoading() {
+        if (this.props.registerRequest && this.props.registerRequest.loading) {
+            return true;
+        }
+        return false;
     }
 
     render() {
@@ -89,12 +101,14 @@ class Signup extends React.Component {
                             {this.state.error ? <p className="error-message">{this.state.error}</p> : null}
                             <Input title="Eesnimi" name="firstname" type="text" initialValue={this.state.firstname} onChange={this.onChange} />
                             <Input title="Perekonnanimi" name="lastname" type="text" initialValue={this.state.lastname} onChange={this.onChange} />
-                            <Input title="Email" name="email" type="email" initialValue={this.state.email} onChange={this.onChange} />
+                            <Input title="Email" name="email" type="email" initialValue={this.state.email} onChange={this.onChange} onBlur={this.onEmailBlur} error={this.props.emailUnique === false ? 'Email on juba kasutusel' : null} />
                             <Input title="Parool" name="password" type="password" initialValue={this.state.password} onChange={this.onChange} />
-                            <Checkbox name="tos" text="Olen nõus meie TOS'idega" checked={this.state.tos} onChange={this.onTosChecked} />
+                            <Checkbox name="tos" text="Olen nõus meie TOS'idega" checked={this.state.tos} onChange={this.onTosChecked} error={this.state.tosError} />
                             <div className="row middle-xs">
-                                <div className="col-xs-12 center-xs col-sm-4 start-sm">
-                                    <Button title="Registeeru" type="submit" disabled={this.state.loading} />
+                                <div className="col-xs-12 center-xs col-sm-12 start-sm">
+                                    <Button title="Registeeru" type="submit" disabled={this.isLoading()} />
+                                    {this.isLoading() ? <span className="margin-left-2">Laadimine...</span> : null}
+                                    {this.getError() ? <span className="margin-left-2 error">{this.getError()}</span> : null}
                                 </div>
                             </div>
                         </form>
@@ -105,4 +119,14 @@ class Signup extends React.Component {
     }
 }
 
-export default withRouter(Signup);
+const mapStateToProps = (state) => ({
+    emailUnique: state.account.emailUnique,
+    registerRequest: state.requests[FETCH_REGISTER]
+});
+
+const mapDispatchToProps = (dispatch) => ({
+    checkEmail: (email) => dispatch(checkEmail(email)),
+    register: (data) => dispatch(register(data))
+});
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Signup));

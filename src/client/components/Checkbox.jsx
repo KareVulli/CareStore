@@ -8,8 +8,13 @@ export default class Checkbox extends React.Component {
         name: PropTypes.string.isRequired,
         text: PropTypes.string.isRequired,
         onChange: PropTypes.func.isRequired,
-        checked: PropTypes.bool.isRequired
+        checked: PropTypes.bool.isRequired,
+        error: PropTypes.oneOfType([PropTypes.bool, PropTypes.string])
     };
+
+    static defaultProps = {
+        error: null
+    }
 
     constructor(props) {
         super(props);
@@ -24,6 +29,11 @@ export default class Checkbox extends React.Component {
             <div className="checkbox">
                 <input id={this.state.id} type="checkbox" name={this.props.name} checked={this.props.checked} onChange={this.props.onChange} />
                 <label htmlFor={this.state.id}>{ this.props.text }</label>
+                {
+                    this.props.error
+                        ? <span className="error">{this.props.error}</span>
+                        : null
+                }
             </div>
         );
     }

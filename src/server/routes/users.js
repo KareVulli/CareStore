@@ -35,7 +35,7 @@ router.delete('/users', async (req, res) => {
 router.get('/users/by-email', async (req, res) => {
     const user = await User.findOne({email: req.query.email});
     if (!user) {
-        res.status(404).json({found: false, message: 'No user with given email exists.'});
+        res.json({found: false, message: 'No user with given email exists.'});
     } else {
         res.json({found: true, message: 'User with given email already exists'});
     }

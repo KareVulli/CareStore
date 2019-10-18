@@ -113,6 +113,10 @@ a.link {
 .products {
     margin-top: 2rem;
 
+    &.loading {
+        filter: blur(5px);
+    }
+
     .product {
         margin: 1rem 0;
         padding: 1rem;
@@ -151,4 +155,9 @@ a.link {
     padding-right: 1rem;
     margin: 1.5rem 0;
     display: inline-block;
+}
+
+.error {
+    color: red;
+    font-size: 0.8rem;
 }

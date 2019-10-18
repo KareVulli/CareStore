@@ -4,7 +4,8 @@ import Item from './Item';
 
 export default class ItemsList extends React.Component {
     static propTypes = {
-        items: PropTypes.array.isRequired
+        items: PropTypes.array.isRequired,
+        loading: PropTypes.bool.isRequired
     };
 
     render() {
@@ -21,8 +22,17 @@ export default class ItemsList extends React.Component {
                 />
             );
         });
+        if (!this.props.loading && !this.props.items.length) {
+            return (
+                <div className="products row">
+                    <div className="col-xs center-xs">
+                        <p>Ei leidnud ühtegi sinu kriteeriumitele vastavat toodet :(</p>
+                    </div>
+                </div>
+            );
+        }
         return (
-            <div className="products row">
+            <div className={`products row ${this.props.loading ? 'loading' : ''}`}>
                 {items}
             </div>
         );

@@ -1,9 +1,22 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
+import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
 import Input from '../components/Input';
 import Button from '../components/Button';
+import {login, FETCH_LOGIN} from '../actions/account';
 
-export default class Login extends React.Component {
+class Login extends React.Component {
+    static propTypes = {
+        loginRequest: PropTypes.object,
+
+        login: PropTypes.func.isRequired
+    };
+
+    static defaultProps = {
+        loginRequest: null
+    }
+
     constructor(props) {
         super(props);
         this.state = {
@@ -22,8 +35,18 @@ export default class Login extends React.Component {
     }
 
     onSubmit(event) {
-        console.log(this.state.email, this.state.password);
         event.preventDefault();
+        this.props.login({
+            email: this.state.email,
+            password: this.state.password
+        });
+    }
+
+    getError() {
+        if (this.props.loginRequest && this.props.loginRequest.error) {
+            return this.props.loginRequest.error.message;
+        }
+        return false;
     }
 
     render() {
@@ -44,6 +67,11 @@ export default class Login extends React.Component {
                                     <Link className="link" to="/login">Unustasin parooli...</Link>
                                 </div>
                             </div>
+                            <div className="row">
+                                <div className="col-xs">
+                                    {this.getError() ? <span className="error">{this.getError()}</span> : null}
+                                </div>
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -51,3 +79,13 @@ export default class Login extends React.Component {
         );
     }
 }
+
+const mapStateToProps = (state) => ({
+    loginRequest: state.requests[FETCH_LOGIN]
+});
+
+const mapDispatchToProps = (dispatch) => ({
+    login: (data) => dispatch(login(data))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

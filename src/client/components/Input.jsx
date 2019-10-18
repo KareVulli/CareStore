@@ -8,8 +8,15 @@ export default class Input extends React.Component {
         name: PropTypes.string.isRequired,
         title: PropTypes.string.isRequired,
         onChange: PropTypes.func.isRequired,
-        type: PropTypes.string.isRequired
+        onBlur: PropTypes.func,
+        type: PropTypes.string.isRequired,
+        error: PropTypes.oneOfType([PropTypes.bool, PropTypes.string])
     };
+
+    static defaultProps = {
+        onBlur: null,
+        error: null
+    }
 
     constructor(props) {
         super(props);
@@ -20,6 +27,7 @@ export default class Input extends React.Component {
         Input.counter += 1;
 
         this.onChange = this.onChange.bind(this);
+        this.onBlur = this.onBlur.bind(this);
     }
 
     onChange(e) {
@@ -27,6 +35,12 @@ export default class Input extends React.Component {
             value: e.target.value
         });
         this.props.onChange(this.props.name, e.target.value);
+    }
+
+    onBlur(e) {
+        if (this.props.onBlur) {
+            this.props.onBlur(this.props.name, e.target.value);
+        }
     }
 
     render() {
@@ -39,7 +53,13 @@ export default class Input extends React.Component {
                     name={this.props.name}
                     value={this.state.value}
                     onChange={this.onChange}
+                    onBlur={this.onBlur}
                 />
+                {
+                    this.props.error
+                        ? <span className="error">{this.props.error}</span>
+                        : null
+                }
             </div>
         );
     }
