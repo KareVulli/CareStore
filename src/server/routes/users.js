@@ -2,6 +2,8 @@
 import express from 'express';
 import bcrypt from 'bcrypt';
 import User from '../models/user';
+import validation from '../middleware/validation';
+import userSchemas from '../schemas/users';
 
 const router = express.Router();
 
@@ -9,7 +11,7 @@ router.get('/users', async (req, res) => {
     res.json(await User.find({}, {oldPasswords: 0, password: 0}));
 });
 
-router.post('/users', async (req, res) => {
+router.post('/users', validation(userSchemas.user), async (req, res) => {
     try {
         const hash = bcrypt.hashSync(req.body.password, 10);
         req.body.password = hash;
@@ -41,7 +43,7 @@ router.get('/users/by-email', async (req, res) => {
     }
 });
 
-router.post('/users/login', async (req, res) => {
+router.post('/users/login', validation(userSchemas.login), async (req, res) => {
     const user = await User.findOne({email: req.body.email}).lean();
     if (user && bcrypt.compareSync(req.body.password, user.password)) {
         delete user.password;

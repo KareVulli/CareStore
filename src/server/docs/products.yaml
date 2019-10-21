@@ -42,6 +42,8 @@
           application/json:
             schema:
               $ref: '#/components/schemas/ArrayOfProducts'
+      422:
+        $ref: '#/components/responses/InvalidInput'
 
   post:
     tags:
@@ -73,6 +75,8 @@
                   type: string
             example:
               message: Product created
+      422:
+        $ref: '#/components/responses/InvalidInput'
 
   delete:
     tags:
@@ -112,6 +116,9 @@
           application/json:
             schema:
               $ref: '#/components/schemas/Product'
+      422:
+        $ref: '#/components/responses/InvalidInput'
+
   delete:
     tags:
       - products
@@ -137,3 +144,5 @@
                   type: string
             example:
               message: Product deleted
+      422:
+        $ref: '#/components/responses/InvalidInput'

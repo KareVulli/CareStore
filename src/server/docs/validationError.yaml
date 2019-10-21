@@ -1,0 +1,13 @@
+components:
+  responses:
+    InvalidInput:
+      description: Sent parameters did not pass validation
+      content:
+        application/json:
+          schema:
+            type: object
+            properties: 
+              message: 
+                type: string
+                example: '"value" is required'
+              

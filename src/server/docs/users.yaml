@@ -34,6 +34,8 @@
                   type: string
             example:
               message: User created
+      422:
+        $ref: '#/components/responses/InvalidInput'
 
   delete:
     tags:
@@ -98,6 +100,8 @@
                   type: string
             example:
               message: User deleted
+      422:
+        $ref: '#/components/responses/InvalidInput'
 
 /users/by-email:
   get:
@@ -138,6 +142,8 @@
                 value:
                   found: false
                   message: No user with given email exists
+      422:
+        $ref: '#/components/responses/InvalidInput'
 /users/login:
   post:
     tags:
@@ -181,3 +187,5 @@
                   type: string
             example:
               message: Invalid email or password
+      422:
+        $ref: '#/components/responses/InvalidInput'
