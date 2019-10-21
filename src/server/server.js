@@ -19,7 +19,7 @@ const options = {
             url: '/api'
         }]
     },
-    apis: ['./src/server/routes/*.js', './src/server/models/*.js']
+    apis: ['./src/server/docs/*.yaml', './src/server/routes/*.js', './src/server/models/*.js']
 };
 
 const swaggerDocument = swaggerJSDoc(options);

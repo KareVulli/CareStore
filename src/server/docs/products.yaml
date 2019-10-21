@@ -1,0 +1,139 @@
+/products:
+  get:
+    tags:
+      - products
+    description: Returns all users based on filters
+    parameters:
+      - name: categories
+        in: query
+        description: What category products to include separated by comma, returns all products if no categories are specified
+        explode: false
+        schema:
+          type: array
+          items:
+            type: string
+          example: 
+            - computers
+            - phones
+      - name: sort
+        in: query
+        description: Field name that is used to order the products
+        schema:
+          type: string
+          enum: 
+            - name
+            - price
+          example: name
+          default: name
+      - name: direction
+        in: query
+        description: What direction to order the products in
+        schema:
+          type: string
+          enum: 
+            - asc
+            - desc
+          example: desc
+          default: desc
+    responses:
+      200:
+        description: An array of products
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ArrayOfProducts'
+
+  post:
+    tags:
+      - products
+    description: Add a new product or products
+    requestBody:
+      description: A JSON object containing Product or array of Products
+      required: true
+      content:
+        application/json:
+          schema:
+            oneOf:
+            - $ref: '#/components/schemas/Product'
+            - $ref: '#/components/schemas/ArrayOfProducts'
+          examples:
+            product:
+              $ref: '#/components/examples/NewProduct'
+            products:
+              $ref: '#/components/examples/NewArrayOfProducts'
+    responses:
+      201:
+        description: Added product successfully
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                message:
+                  type: string
+            example:
+              message: Product created
+
+  delete:
+    tags:
+      - products
+    description: Delete all products
+    responses:
+      200:
+        description: All products deleted
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                message:
+                  type: string
+            example:
+              message: Products purged
+
+/product/{productId}:
+  get:
+    tags:
+      - products
+    description: Gets a single product
+    parameters:
+      - name: productId
+        in: path
+        description: The ID of the product to get
+        schema:
+          type: string
+        required: true
+        example:
+          5da9419676e6b80fbcafa336
+    responses:
+      200:
+        description: A product
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+  delete:
+    tags:
+      - products
+    description: Delete a single product
+    parameters:
+      - name: productId
+        in: path
+        description: The ID of the product to delete
+        schema:
+          type: string
+        required: true
+        example:
+          5da9419676e6b80fbcafa336
+    responses:
+      200:
+        description: Product has been deleted
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                message:
+                  type: string
+            example:
+              message: Product deleted

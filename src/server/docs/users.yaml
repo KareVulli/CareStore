@@ -1,0 +1,183 @@
+/users:
+  get:
+    tags:
+      - users
+    description: Returns all users
+    responses:
+      200:
+        description: An array of users
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ArrayOfUsers'
+
+  post:
+    tags:
+      - users
+    description: Add a new user
+    requestBody:
+      description: A JSON object containing User
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/User'
+    responses:
+      201:
+        description: Added a new user successfully
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                message:
+                  type: string
+            example:
+              message: User created
+
+  delete:
+    tags:
+      - users
+    description: Delete all users
+    responses:
+      200:
+        description: All users deleted
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                message:
+                  type: string
+            example:
+              message: Users purged
+
+/users/{userId}:
+  get:
+    tags:
+      - users
+    description: Gets a user
+    parameters:
+      - name: userId
+        in: path
+        description: The ID of the user to get
+        schema:
+          type: string
+        required: true
+        example:
+          5da9419676e6b80fbcafa336
+    responses:
+      200:
+        description: A user
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+  delete:
+    tags:
+      - users
+    description: Delete a single user
+    parameters:
+      - name: userId
+        in: path
+        description: The ID of the user to delete
+        schema:
+          type: string
+        required: true
+        example:
+          5da9419676e6b80fbcafa336
+    responses:
+      200:
+        description: User has been deleted
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                message:
+                  type: string
+            example:
+              message: User deleted
+
+/users/by-email:
+  get:
+    tags:
+      - users
+    description: Checks if user with given email already exists
+    parameters:
+      - name: email
+        in: query
+        description: The email to check
+        schema:
+          type: string
+        required: true
+        example:
+          foo@bar.com
+    responses:
+      200:
+        description: True if a user with given email already exists. False otherwise.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                found:
+                  type: boolean
+                message:
+                  type: string
+            examples:
+              emailExists:
+                summary: Email exists
+                description: Returned when user with given email already exists
+                value:
+                  found: true
+                  message: User with given email already exists
+              emailDoesNotExist:
+                summary: New email
+                description: Returned when no user with given email was found
+                value:
+                  found: false
+                  message: No user with given email exists
+/users/login:
+  post:
+    tags:
+      - users
+    description: Authenticate a user
+    requestBody:
+      description: A JSON object containing User credentials
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              email:
+                type: string
+                example: foo@bar.com
+              password:
+                type: string
+                example: P2$$w0rd
+    responses:
+      200:
+        description: User successfully authenticated
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                message:
+                  type: string
+                  example: Logged in successfully
+                user:
+                  $ref: '#/components/schemas/User'
+      400:
+        description: Invalid credentials
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                message:
+                  type: string
+            example:
+              message: Invalid email or password
