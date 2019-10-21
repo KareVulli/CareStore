@@ -1,11 +1,28 @@
 import bodyParser from 'body-parser';
 import express from 'express';
 import path from 'path';
+import swaggerJSDoc from 'swagger-jsdoc';
+import swaggerUI from 'swagger-ui-express';
 import productRoutes from './routes/products';
 import userRoutes from './routes/users';
 import 'dotenv/config';
 import './utils/db';
 
+const options = {
+    definition: {
+        openapi: '3.0.0',
+        info: {
+            title: 'CareStore',
+            version: '1.0.0'
+        },
+        servers: [{
+            url: '/api'
+        }]
+    },
+    apis: ['./src/server/routes/*.js', './src/server/models/*.js']
+};
+
+const swaggerDocument = swaggerJSDoc(options);
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -23,6 +40,11 @@ app.use(express.static('dist', {
 
 app.use('/api', productRoutes);
 app.use('/api', userRoutes);
+
+app.use('/api/docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
+app.use('/api/docs.json', (req, res) => {
+    res.json(swaggerDocument);
+});
 
 app.get('/*', (req, res) => {
     res.sendFile(path.join(__dirname, 'dist/index.html'), (err) => {

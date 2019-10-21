@@ -23,7 +23,7 @@ function onRegister() {
 
 function onLogin() {
     return (dispatch) => {
-        dispatch(push('/profile/'));
+        dispatch(push('/profile'));
     };
 }
 
