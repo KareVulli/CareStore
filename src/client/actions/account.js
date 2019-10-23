@@ -9,7 +9,7 @@ export const FETCH_LOGIN = 'FETCH_LOGIN';
 
 export const ON_CHECK_EMAIL = 'ON_CHECK_EMAIL';
 export const ON_REGISTER = 'ON_REGISTER';
-export const ON_LOGIN = 'ON_REGISTER';
+export const ON_LOGIN = 'ON_LOGIN';
 
 function onCheckEmail(response) {
     return {type: ON_CHECK_EMAIL, found: response.found};
@@ -21,8 +21,9 @@ function onRegister() {
     };
 }
 
-function onLogin() {
+function onLogin(response) {
     return (dispatch) => {
+        dispatch({type: ON_LOGIN, token: response.token, user: response.user});
         dispatch(push('/profile'));
     };
 }
@@ -48,7 +49,7 @@ export function register(data) {
 
 export function login(data) {
     return requestAction({
-        url: '/api/users/login',
+        url: '/api/auth/login',
         method: 'POST',
         data: data,
         onSuccess: onLogin,

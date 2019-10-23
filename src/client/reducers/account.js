@@ -3,7 +3,9 @@ import produce from 'immer';
 import createReducer from '../utils/createReducer';
 
 const initialState = {
-    emailUnique: null
+    emailUnique: true,
+    token: null,
+    user: null
 };
 
 function onCheckEmail(state, action) {
@@ -20,7 +22,8 @@ function onRegister(state, action) {
 
 function onLogin(state, action) {
     return produce(state, (draft) => {
-        draft.sortBy = action.sortBy;
+        draft.token = action.token;
+        draft.user = action.user;
     });
 }
 

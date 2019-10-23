@@ -44,6 +44,9 @@ class Login extends React.Component {
 
     getError() {
         if (this.props.loginRequest && this.props.loginRequest.error) {
+            if (this.props.loginRequest.error.status === 400) {
+                return 'Vigane email või parool';
+            }
             return this.props.loginRequest.error.message;
         }
         return false;

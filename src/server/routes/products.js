@@ -1,6 +1,8 @@
 /* eslint-disable no-underscore-dangle */
 import express from 'express';
 import Product from '../models/product';
+import validation from '../middleware/validation';
+import productSchemas from '../schemas/products';
 
 const router = express.Router();
 
@@ -20,7 +22,7 @@ router.get('/products', async (req, res) => {
     res.json(products);
 });
 
-router.post('/products', async (req, res) => {
+router.post('/products', validation(productSchemas.products), async (req, res) => {
     try {
         if (Array.isArray(req.body)) {
             const promises = [];

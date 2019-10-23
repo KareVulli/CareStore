@@ -59,6 +59,7 @@ class Signup extends React.Component {
     }
 
     onSubmit(event) {
+        console.log('onSubmit()');
         event.preventDefault();
         if (!this.state.tos) {
             this.setState({
@@ -77,8 +78,23 @@ class Signup extends React.Component {
         });
     }
 
+    getValidationError(field) {
+        if (
+            this.props.registerRequest
+            && this.props.registerRequest.error
+            && this.props.registerRequest.error.response
+            && this.props.registerRequest.error.response.errors
+        ) {
+            return this.props.registerRequest.error.response.errors[field] || false;
+        }
+        return false;
+    }
+
     getError() {
         if (this.props.registerRequest && this.props.registerRequest.error) {
+            if (this.props.registerRequest.error.status === 422) {
+                return 'Palun kontrolli sisestatud väärtusi';
+            }
             return this.props.registerRequest.error.message;
         }
         return false;
@@ -99,10 +115,10 @@ class Signup extends React.Component {
                         <h1>Registeeru</h1>
                         <form onSubmit={this.onSubmit}>
                             {this.state.error ? <p className="error-message">{this.state.error}</p> : null}
-                            <Input title="Eesnimi" name="firstname" type="text" initialValue={this.state.firstname} onChange={this.onChange} />
-                            <Input title="Perekonnanimi" name="lastname" type="text" initialValue={this.state.lastname} onChange={this.onChange} />
-                            <Input title="Email" name="email" type="email" initialValue={this.state.email} onChange={this.onChange} onBlur={this.onEmailBlur} error={this.props.emailUnique === false ? 'Email on juba kasutusel' : null} />
-                            <Input title="Parool" name="password" type="password" initialValue={this.state.password} onChange={this.onChange} />
+                            <Input title="Eesnimi" name="firstname" type="text" initialValue={this.state.firstname} onChange={this.onChange} error={this.getValidationError('firstname')} />
+                            <Input title="Perekonnanimi" name="lastname" type="text" initialValue={this.state.lastname} onChange={this.onChange} error={this.getValidationError('lastname')} />
+                            <Input title="Email" name="email" type="email" initialValue={this.state.email} onChange={this.onChange} onBlur={this.onEmailBlur} error={this.props.emailUnique === false ? 'Email on juba kasutusel' : this.getValidationError('email')} />
+                            <Input title="Parool" name="password" type="password" initialValue={this.state.password} onChange={this.onChange} error={this.getValidationError('password')} />
                             <Checkbox name="tos" text="Olen nõus meie TOS'idega" checked={this.state.tos} onChange={this.onTosChecked} error={this.state.tosError} />
                             <div className="row middle-xs">
                                 <div className="col-xs-12 center-xs col-sm-12 start-sm">

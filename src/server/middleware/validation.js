@@ -1,14 +1,15 @@
-import Joi from 'joi';
+import {validationResult} from 'express-validator';
 
-export default (schema, property = 'body') => (req, res, next) => {
-    const {error, value} = Joi.validate(req[property], schema);
+export default (validations) => async (req, res, next) => {
+    await Promise.all(validations.map((validation) => validation.run(req)));
+    const errorFormatter = ({msg}) => msg;
+    const errors = validationResult(req).formatWith(errorFormatter);
 
-    if (error === null) {
-        req[property] = value;
+    if (errors.isEmpty()) {
         console.log('passed');
         next();
     } else {
-        const message = error.details.map((i) => i.message).join(', ');
-        res.status(422).json({message: message});
+        // const message = errors.array().join(', ');
+        res.status(422).json({message: 'There were validation errors', errors: errors.mapped()});
     }
 };

@@ -9,5 +9,13 @@ components:
             properties: 
               message: 
                 type: string
-                example: '"value" is required'
+                example: 'There were validation errors'
+              errors:
+                type: object
+                additionalProperties:
+                  type: string
+                example:
+                  firstname: Eesnimi on kohustuslik
+                  password: Parool peab olema vähemalt 6 tähemärki pikk
+                  
               
