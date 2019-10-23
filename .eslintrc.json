@@ -33,6 +33,7 @@
         "object-shorthand": "off",
         "object-curly-spacing": ["error", "never"],
         "react/static-property-placement": ["error", "static public field"],
-        "react/forbid-prop-types": [0]
+        "react/forbid-prop-types": [0],
+        "react/sort-comp": [0]
     }
 }
