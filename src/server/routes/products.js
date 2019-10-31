@@ -10,15 +10,13 @@ router.get('/products', async (req, res) => {
     const filters = {};
     if (req.query.categories) {
         filters.category = {$in: req.query.categories.split(',')};
+    } else {
+        res.json([]);
+        return;
     }
-    const products = await Product.find().sort({
+    const products = await Product.find(filters).sort({
         [req.query.sort || 'name']: req.query.direction === 'desc' ? -1 : 1
     }).lean();
-    for (let i = 0; i < products.length; i += 1) {
-        const product = products[i];
-        product.id = product._id;
-        delete product._id;
-    }
     res.json(products);
 });
 

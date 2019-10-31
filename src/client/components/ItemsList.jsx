@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import React from 'react';
 import PropTypes from 'prop-types';
 import Item from './Item';
@@ -15,7 +16,7 @@ export default class ItemsList extends React.Component {
             return (
                 <Item
                     key={i}
-                    id={item.id}
+                    id={item._id}
                     name={item.name}
                     price={item.price}
                     image={item.image}
