@@ -122,7 +122,7 @@ class Signup extends React.Component {
                             <Checkbox name="tos" text="Olen nõus meie TOS'idega" checked={this.state.tos} onChange={this.onTosChecked} error={this.state.tosError} />
                             <div className="row middle-xs">
                                 <div className="col-xs-12 center-xs col-sm-12 start-sm">
-                                    <Button title="Registeeru" type="submit" disabled={this.isLoading()} />
+                                    <Button title="Registeeru" rule="submit" disabled={this.isLoading()} />
                                     {this.isLoading() ? <span className="margin-left-2">Laadimine...</span> : null}
                                     {this.getError() ? <span className="margin-left-2 error">{this.getError()}</span> : null}
                                 </div>

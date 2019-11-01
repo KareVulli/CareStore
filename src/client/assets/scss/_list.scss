@@ -1,0 +1,14 @@
+.list {
+    border-top: 1px solid rgb(61, 61, 61);
+
+    .list-item {
+        border-bottom: 1px solid rgb(61, 61, 61);
+    }
+
+    .list-item-clickable {
+        transition: background-color .2s ease-in-out;
+        &:hover {
+            background-color: rgba($primaryColor, $hover-alpha);
+        }
+    }
+}

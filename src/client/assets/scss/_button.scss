@@ -6,7 +6,7 @@
     
     font-size: 0.8rem;
     cursor: pointer;
-    border: 1px solid gray;
+    border: none;
     color: $foreground;
     text-transform: uppercase;
 
@@ -17,6 +17,20 @@
 
         &:hover {
             background-color: rgba($primaryColor, $hover-alpha);
+        }
+    }
+
+    &.btn-simple {
+        transition: color .1s ease-in-out;
+        &:hover {
+            color: $primaryColor;
+        }
+    }
+
+    &.btn-simple-danger {
+        transition: color .1s ease-in-out;
+        &:hover {
+            color: $dangerColor;
         }
     }
 

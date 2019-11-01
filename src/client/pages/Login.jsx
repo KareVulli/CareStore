@@ -63,7 +63,7 @@ class Login extends React.Component {
                             <Input title="Parool" name="password" type="password" initialValue={this.state.password} onChange={this.onChange} />
                             <div className="row middle-xs">
                                 <div className="col-xs-12 center-xs col-sm-4 start-sm">
-                                    <Button title="Logi sisse" type="submit" />
+                                    <Button title="Logi sisse" rule="submit" />
                                 </div>
                                 <div className="col-xs-12 center-xs col-sm-8 end-sm padding-y-2">
                                     <Link className="link" to="/signup">Pole kasutajat?</Link>

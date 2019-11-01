@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 import React from 'react';
 import PropTypes from 'prop-types';
-import Item from './Item';
+import CartItem from './CartItem';
 
 export default class CartList extends React.Component {
     static propTypes = {
@@ -14,18 +14,19 @@ export default class CartList extends React.Component {
         const items = this.props.items.map((item) => {
             i += 1;
             return (
-                <Item
+                <CartItem
                     key={i}
                     id={item._id}
                     name={item.name}
                     price={item.price}
                     image={item.image}
+                    quantity={item.quantity}
                 />
             );
         });
         if (!this.props.loading && !this.props.items.length) {
             return (
-                <div className="products row">
+                <div className="row">
                     <div className="col-xs center-xs">
                         <p>Pole ühtegi toodet ostukorvis</p>
                     </div>
@@ -33,7 +34,7 @@ export default class CartList extends React.Component {
             );
         }
         return (
-            <div className={`products row ${this.props.loading ? 'loading' : ''}`}>
+            <div className={`list row ${this.props.loading ? 'loading' : ''}`}>
                 {items}
             </div>
         );
