@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Redirect} from 'react-router-dom';
-import {connect} from 'react-redux';
 import Moment from 'react-moment';
+import withProtectedPage from '../hocs/protectedPage';
 
 class Profile extends React.Component {
     static propTypes = {
@@ -13,15 +12,7 @@ class Profile extends React.Component {
         user: null
     }
 
-    isLoggedIn() {
-        return this.props.user !== null;
-    }
-
     render() {
-        if (!this.isLoggedIn()) {
-            return <Redirect to="/login" />;
-        }
-
         return (
             <div className="container">
                 <div className="row">
@@ -46,8 +37,4 @@ class Profile extends React.Component {
     }
 }
 
-const mapStateToProps = (state) => ({
-    user: state.account.user
-});
-
-export default connect(mapStateToProps)(Profile);
+export default withProtectedPage(Profile);
