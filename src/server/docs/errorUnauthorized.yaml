@@ -1,0 +1,23 @@
+components:
+  responses:
+    Unauthorized:
+      description: Passed authorization header does not contain a token or the token is expired or invalid
+      content:
+        application/json:
+          schema:
+            type: object
+            properties: 
+              message: 
+                type: string
+          examples:
+            Token invalid:
+              value:
+                message: 'invalid token'
+            Token expired:
+              value:
+                message: 'jwt expired'
+            No token provided:
+              value:
+                message: 'No token provided'
+                  
+              

@@ -46,3 +46,23 @@
               message: Invalid email or password
       422:
         $ref: '#/components/responses/InvalidInput'
+/auth/verify:
+  get:
+    security:
+      - TokenAuth: []
+    tags:
+      - authentication
+    description: Check if current authentication token is valid
+    responses:
+      200:
+        description: Token is valid
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                message:
+                  type: string
+                  example: Authenticated
+      401:
+        $ref: '#/components/responses/Unauthorized'
