@@ -1,17 +1,9 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
-import PropTypes from 'prop-types';
 import Moment from 'react-moment';
 import withProtectedPage from '../hocs/protectedPage';
 
 class Profile extends React.Component {
-    static propTypes = {
-        user: PropTypes.object
-    };
-
-    static defaultProps = {
-        user: null
-    }
-
     render() {
         return (
             <div className="container">

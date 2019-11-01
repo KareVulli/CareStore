@@ -17,6 +17,7 @@ router.get('/products', async (req, res) => {
     const products = await Product.find(filters).sort({
         [req.query.sort || 'name']: req.query.direction === 'desc' ? -1 : 1
     }).lean();
+
     res.json(products);
 });
 

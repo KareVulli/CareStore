@@ -1,26 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
-import {connect} from 'react-redux';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faShoppingCart, faUserCircle} from '@fortawesome/free-solid-svg-icons';
+import withUser from '../hocs/user';
 
 class Header extends React.Component {
     static propTypes = {
-        user: PropTypes.object
+        user: PropTypes.object,
+        isLoggedIn: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
         user: null
     }
 
-    isLoggedIn() {
-        return this.props.user !== null;
-    }
-
     render() {
         let accountArea;
-        if (this.isLoggedIn()) {
+        if (this.props.isLoggedIn) {
             accountArea = (
                 <Link className="navbar-item" to="/profile">
                     <FontAwesomeIcon className="navbar-icon" icon={faUserCircle} size="lg" />
@@ -47,7 +44,7 @@ class Header extends React.Component {
                         </div>
                         <div className="col-xs col-sm-6 end-xs">
                             {accountArea}
-                            <Link className="navbar-item" to="/">
+                            <Link className="navbar-item" to="/cart">
                                 <FontAwesomeIcon className="navbar-icon" icon={faShoppingCart} size="lg" />
                                 <span>Ostukorv</span>
                             </Link>
@@ -58,9 +55,4 @@ class Header extends React.Component {
         );
     }
 }
-
-const mapStateToProps = (state) => ({
-    user: state.account.user
-});
-
-export default connect(mapStateToProps)(Header);
+export default withUser(Header);

@@ -1,33 +1,21 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
-import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
 import {Redirect} from 'react-router-dom';
-
-const mapStateToProps = (state) => ({
-    user: state.account.user
-});
+import PropTypes from 'prop-types';
+import withUser from './user';
 
 export default (WrappedComponent) => {
     const Component = class extends React.Component {
         static propTypes = {
-            user: PropTypes.object
+            isLoggedIn: PropTypes.bool.isRequired
         };
 
-        static defaultProps = {
-            user: null
-        }
-
-        isLoggedIn() {
-            return this.props.user !== null;
-        }
-
         render() {
-            if (!this.isLoggedIn()) {
+            if (!this.props.isLoggedIn) {
                 return <Redirect to="/login" />;
             }
             return <WrappedComponent {...this.props} />;
         }
     };
-    return connect(mapStateToProps)(Component);
+    return withUser(Component);
 };

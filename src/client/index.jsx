@@ -14,6 +14,7 @@ import NotFound from './pages/NotFound';
 import Header from './components/Header';
 import './assets/scss/flexboxgrid.scss';
 import './assets/scss/style.scss';
+import Cart from './pages/Cart';
 
 const root = document.getElementById('app');
 const store = initStore();
@@ -29,6 +30,7 @@ render(
                 <Route path="/signup" exact component={Signup} />
                 <Route path="/profile" exact component={Profile} />
                 <Route path="/product/:product" exact component={Product} />
+                <Route path="/cart" exact component={Cart} />
                 <Route path="*" component={NotFound} />
             </Switch>
         </ConnectedRouter>
