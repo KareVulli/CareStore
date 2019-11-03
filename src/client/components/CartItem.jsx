@@ -19,19 +19,19 @@ export default class CartItem extends React.Component {
         return (
             <div className="list-item list-item-clickable col-xs-12">
                 <Link className="cart-item row middle-xs padding-y-2" to={`/product/${this.props.id}`}>
-                    <div className="col-xs-2">
+                    <div className="col-xs-3 col-sm-2">
                         <img className="cart-item-image" src={this.props.image} alt={this.props.name} />
                     </div>
-                    <div className="col-xs-5">
+                    <div className="col-xs-9 col-sm-5">
                         <p className="product-title">{this.props.name}</p>
                     </div>
-                    <div className="col-xs-2">
+                    <div className="col-xs-3 col-sm-2">
                         <p className="product-quantity">{`Kogus: ${this.props.quantity}`}</p>
                     </div>
-                    <div className="col-xs-2">
+                    <div className="col-xs-7 col-sm-2">
                         <p className="product-price">{`Hind: ${this.props.price} €`}</p>
                     </div>
-                    <div className="col-xs-1">
+                    <div className="col-xs-2 col-sm-1 end-xs">
                         <Button title={<FontAwesomeIcon icon={faTimes} size="2x" />} rule="button" type="simple-danger" />
                     </div>
                 </Link>

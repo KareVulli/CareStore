@@ -37,6 +37,8 @@ class Cart extends React.Component {
             items.push(product);
         }
 
+        const total = items.reduce((prev, item) => prev + (item.price * item.quantity), 0);
+
         return (
             <div className="container">
                 <div className="row middle-xs">
@@ -53,8 +55,15 @@ class Cart extends React.Component {
                     </div>
                 </div>
                 <div className="row middle-xs">
-                    <div className="col-xs-3 end-xs col-xs-offset-9 margin-top-4">
-                        <strong>{`Kokku: ${items.reduce((prev, item) => prev + (item.price * item.quantity), 0)} €`}</strong>
+                    <div className="col-xs-9 col-sm-10 end-xs margin-top-4">
+                        <p><strong>Vahesumma:</strong></p>
+                        <p><strong>Käibemaks:</strong></p>
+                        <p><strong>Kokku:</strong></p>
+                    </div>
+                    <div className="col-xs-3 col-sm-2 end-xs margin-top-4">
+                        <p><strong>{`${(total * 0.8).toFixed(2)} €`}</strong></p>
+                        <p><strong>{`${(total * 0.2).toFixed(2)} €`}</strong></p>
+                        <p><strong>{`${items.reduce((prev, item) => prev + (item.price * item.quantity), 0)} €`}</strong></p>
                     </div>
                 </div>
                 <div className="row middle-xs">
