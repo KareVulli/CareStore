@@ -1,19 +1,33 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
+import {connect} from 'react-redux';
 
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faTimes} from '@fortawesome/free-solid-svg-icons';
 import Button from './Button';
+import {removeProduct} from '../actions/cart';
 
-export default class CartItem extends React.Component {
+class CartItem extends React.Component {
     static propTypes = {
         id: PropTypes.string.isRequired,
         image: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired,
         price: PropTypes.number.isRequired,
-        quantity: PropTypes.number.isRequired
+        quantity: PropTypes.number.isRequired,
+        removeProduct: PropTypes.func.isRequired
     };
+
+    constructor(props) {
+        super(props);
+
+        this.onRemove = this.onRemove.bind(this);
+    }
+
+    onRemove(event) {
+        event.preventDefault();
+        this.props.removeProduct(this.props.id);
+    }
 
     render() {
         return (
@@ -32,10 +46,17 @@ export default class CartItem extends React.Component {
                         <p className="product-price">{`Hind: ${this.props.price} €`}</p>
                     </div>
                     <div className="col-xs-2 col-sm-1 end-xs">
-                        <Button title={<FontAwesomeIcon icon={faTimes} size="2x" />} rule="button" type="simple-danger" />
+                        <Button title={<FontAwesomeIcon icon={faTimes} size="2x" />} rule="button" type="simple-danger" onClick={this.onRemove} />
                     </div>
                 </Link>
             </div>
         );
     }
 }
+
+
+const mapDispatchToProps = (dispatch) => ({
+    removeProduct: (product) => dispatch(removeProduct(product))
+});
+
+export default connect(null, mapDispatchToProps)(CartItem);

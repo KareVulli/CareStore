@@ -18,3 +18,21 @@ $spacers: (
     4: ($spacer * 1.5),
     5: ($spacer * 3)
 );
+
+$types: (
+    primary: $primaryColor,
+    danger: $dangerColor
+);
+
+$size: 1rem;
+$sizesMultiplier: (
+    small: 0.5,
+    normal: 1,
+    large: 1.25,
+    x-large: 1.5
+);
+$sizes: ();
+
+@each $name, $multiplier in $sizesMultiplier {
+    $sizes: map-merge($sizes, ($name: $size * $multiplier));
+}

@@ -9,7 +9,8 @@ module.exports = {
     entry: './src/client/index.jsx',
     output: {
         filename: 'assets/js/[name].[contenthash].js',
-        path: path.resolve(__dirname, 'dist')
+        path: path.resolve(__dirname, 'dist'),
+        publicPath: '/'
     },
     plugins: [
         new CopyPlugin([
@@ -55,7 +56,7 @@ module.exports = {
         ]
     },
     resolve: {
-        extensions: ['.js', '.jsx']
+        extensions: ['.js', '.jsx', '.scss']
     },
     optimization: {
         moduleIds: 'hashed',

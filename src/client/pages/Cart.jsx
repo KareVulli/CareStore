@@ -3,35 +3,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import CartList from '../components/CartList';
-import {
-    loadProducts, FETCH_PRODUCTS
-} from '../actions/products';
 import Button from '../components/Button';
 
 class Cart extends React.Component {
     static propTypes = {
-        products: PropTypes.array.isRequired,
-        productsRequest: PropTypes.object,
-
-        loadProducts: PropTypes.func.isRequired
+        products: PropTypes.array.isRequired
     };
 
-    static defaultProps = {
-        productsRequest: null
-    }
-
-    componentDidMount() {
-        this.props.loadProducts();
-    }
-
     render() {
-        let loading = false;
-        if (this.props.productsRequest && this.props.productsRequest.loading) {
-            loading = true;
-        }
-
         const items = [];
-        for (let i = 0; i < this.props.products.length && i < 5; i += 1) {
+        for (let i = 0; i < this.props.products.length; i += 1) {
             const product = {...this.props.products[i]};
             product.quantity = 1;
             items.push(product);
@@ -51,7 +32,7 @@ class Cart extends React.Component {
                 </div>
                 <div className="row middle-xs">
                     <div className="col-xs-12 col-sm">
-                        <CartList items={items} loading={loading} />
+                        <CartList items={items} loading={false} />
                     </div>
                 </div>
                 <div className="row middle-xs">
@@ -63,7 +44,7 @@ class Cart extends React.Component {
                     <div className="col-xs-3 col-sm-2 end-xs margin-top-4">
                         <p><strong>{`${(total * 0.8).toFixed(2)} €`}</strong></p>
                         <p><strong>{`${(total * 0.2).toFixed(2)} €`}</strong></p>
-                        <p><strong>{`${items.reduce((prev, item) => prev + (item.price * item.quantity), 0)} €`}</strong></p>
+                        <p><strong>{`${items.reduce((prev, item) => prev + (item.price * item.quantity), 0).toFixed(2)} €`}</strong></p>
                     </div>
                 </div>
                 <div className="row middle-xs">
@@ -78,12 +59,8 @@ class Cart extends React.Component {
 
 
 const mapStateToProps = (state) => ({
-    products: state.products.products,
-    productsRequest: state.requests[FETCH_PRODUCTS]
+    products: state.cart.products
 });
 
-const mapDispatchToProps = (dispatch) => ({
-    loadProducts: () => dispatch(loadProducts())
-});
 
-export default connect(mapStateToProps, mapDispatchToProps)(Cart);
+export default connect(mapStateToProps)(Cart);

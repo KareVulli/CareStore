@@ -1,0 +1,11 @@
+@each $size, $rem in $sizes {
+    .text-#{$size} {
+        font-size: $rem;
+    }
+}
+
+@each $name, $color in $types {
+    .text-#{$name} {
+        color: $color;
+    }
+}

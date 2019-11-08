@@ -1,3 +1,4 @@
+/* eslint-disable import/no-unresolved */
 import React from 'react';
 import {render} from 'react-dom';
 import {Provider} from 'react-redux';
@@ -12,8 +13,8 @@ import SuccessfulSignup from './pages/SuccessfulSignup';
 import Profile from './pages/Profile';
 import NotFound from './pages/NotFound';
 import Header from './components/Header';
-import './assets/scss/flexboxgrid.scss';
-import './assets/scss/style.scss';
+import './assets/scss/flexboxgrid';
+import './assets/scss/style';
 import Cart from './pages/Cart';
 
 const root = document.getElementById('app');
