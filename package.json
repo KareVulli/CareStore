@@ -8,7 +8,8 @@
     "build": "webpack --config webpack.prod.js",
     "start": "node -r esm src/server/server.js",
     "dev": "webpack-dev-server --config webpack.dev.js",
-    "dev-server": "nodemon -r esm src/server/server.js"
+    "dev-server": "nodemon -r esm src/server/server.js",
+    "prelive": "set PORT=3001 && npm run build && npm run start"
   },
   "repository": {
     "type": "git",
