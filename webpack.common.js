@@ -8,7 +8,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
     entry: './src/client/index.jsx',
     output: {
-        filename: '[name].[contenthash].js',
+        filename: 'assets/js/[name].[contenthash].js',
         path: path.resolve(__dirname, 'dist')
     },
     plugins: [
@@ -17,7 +17,7 @@ module.exports = {
         ]),
         new CleanWebpackPlugin(),
         new MiniCssExtractPlugin({
-            filename: '[name].[contenthash].css'
+            filename: 'assets/css/[name].[contenthash].css'
         }),
         new HtmlWebpackPlugin({
             inject: false,
