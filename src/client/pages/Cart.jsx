@@ -11,15 +11,10 @@ class Cart extends React.Component {
     };
 
     render() {
-        const items = [];
-        for (let i = 0; i < this.props.products.length; i += 1) {
-            const product = {...this.props.products[i]};
-            product.quantity = 1;
-            items.push(product);
-        }
-
-        const total = items.reduce((prev, item) => prev + (item.price * item.quantity), 0);
-
+        const total = this.props.products.reduce(
+            (acc, item) => acc + (item.price * item.quantity), 0
+        );
+        const count = this.props.products.reduce((acc, product) => acc + product.quantity, 0);
         return (
             <div className="container">
                 <div className="row middle-xs">
@@ -27,12 +22,14 @@ class Cart extends React.Component {
                         <h1>Ostukorv</h1>
                     </div>
                     <div className="col-xs end-xs">
-                        <p>{`Ostukorvis tooteid: ${items.length}`}</p>
+                        <p>
+                            {`Ostukorvis tooteid: ${count}`}
+                        </p>
                     </div>
                 </div>
                 <div className="row middle-xs">
                     <div className="col-xs-12 col-sm">
-                        <CartList items={items} loading={false} />
+                        <CartList items={this.props.products} loading={false} />
                     </div>
                 </div>
                 <div className="row middle-xs">
@@ -44,7 +41,7 @@ class Cart extends React.Component {
                     <div className="col-xs-3 col-sm-2 end-xs margin-top-4">
                         <p><strong>{`${(total * 0.8).toFixed(2)} €`}</strong></p>
                         <p><strong>{`${(total * 0.2).toFixed(2)} €`}</strong></p>
-                        <p><strong>{`${items.reduce((prev, item) => prev + (item.price * item.quantity), 0).toFixed(2)} €`}</strong></p>
+                        <p><strong>{`${total.toFixed(2)} €`}</strong></p>
                     </div>
                 </div>
                 <div className="row middle-xs">

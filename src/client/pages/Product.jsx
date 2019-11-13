@@ -31,7 +31,7 @@ class Product extends React.Component {
     }
 
     onAddToCart() {
-        this.props.addProduct(this.state.product);
+        this.props.addProduct({...this.state.product, quantity: 1});
     }
 
     loadProduct(id) {

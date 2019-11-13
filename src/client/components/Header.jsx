@@ -47,7 +47,11 @@ class Header extends React.Component {
                         </div>
                         {accountArea}
                         <Link className="navbar-item" to="/cart">
-                            <Badge count={this.props.products.length} />
+                            <Badge
+                                count={this.props.products.reduce(
+                                    (acc, product) => acc + product.quantity, 0
+                                )}
+                            />
                             <span>Ostukorv</span>
                         </Link>
                     </div>

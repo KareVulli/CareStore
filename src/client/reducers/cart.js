@@ -9,7 +9,12 @@ const initialState = {
 
 function addProduct(state, action) {
     return produce(state, (draft) => {
-        draft.products.push(action.product);
+        const exists = draft.products.find((product) => product._id === action.product._id);
+        if (exists) {
+            exists.quantity += action.product.quantity;
+        } else {
+            draft.products.push(action.product);
+        }
     });
 }
 
