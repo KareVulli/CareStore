@@ -1,4 +1,3 @@
-
 @mixin btn-size($multiplier) {
     padding: 0.6rem * $multiplier 1.5rem * $multiplier;
     margin: 0.4rem * $multiplier 0;
@@ -11,12 +10,16 @@
     &:hover {
         background-color: rgba($color, $hover-alpha);
     }
+
+    &:active {
+        background-color: rgba(darken($color, 15%), $hover-alpha);
+    }
 }
 
 @mixin btn-simple-type($color) {
     transition: color .1s ease-in-out;
     &:hover {
-        color: $primaryColor;
+        color: $color;
     }
 }
 

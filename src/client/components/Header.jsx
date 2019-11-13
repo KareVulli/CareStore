@@ -1,13 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faShoppingCart, faUserCircle} from '@fortawesome/free-solid-svg-icons';
+import {faUserCircle} from '@fortawesome/free-solid-svg-icons';
 import withUser from '../hocs/user';
+import Badge from './Badge';
 
 class Header extends React.Component {
     static propTypes = {
         user: PropTypes.object,
+        products: PropTypes.array.isRequired,
         isLoggedIn: PropTypes.bool.isRequired
     };
 
@@ -19,15 +22,15 @@ class Header extends React.Component {
         let accountArea;
         if (this.props.isLoggedIn) {
             accountArea = (
-                <Link className="navbar-item" to="/profile">
-                    <FontAwesomeIcon className="navbar-icon" icon={faUserCircle} size="lg" />
+                <Link className="navbar-item col-xs end-xs" to="/profile">
+                    <FontAwesomeIcon className="navbar-icon" icon={faUserCircle} size="2x" />
                     <span>{`Tere, ${this.props.user.firstname} ${this.props.user.lastname}`}</span>
                 </Link>
             );
         } else {
             accountArea = (
-                <Link className="navbar-item" to="/login">
-                    <FontAwesomeIcon className="navbar-icon" icon={faUserCircle} size="lg" />
+                <Link className="navbar-item col-xs end-xs" to="/login">
+                    <FontAwesomeIcon className="navbar-icon" icon={faUserCircle} size="2x" />
                     <span>Logi sisse</span>
                 </Link>
             );
@@ -42,17 +45,20 @@ class Header extends React.Component {
                                 <img className="navbar-logo" src="/assets/images/CareCloud.png" alt="logo" />
                             </Link>
                         </div>
-                        <div className="col-xs col-sm-6 end-xs">
-                            {accountArea}
-                            <Link className="navbar-item" to="/cart">
-                                <FontAwesomeIcon className="navbar-icon" icon={faShoppingCart} size="lg" />
-                                <span>Ostukorv</span>
-                            </Link>
-                        </div>
+                        {accountArea}
+                        <Link className="navbar-item" to="/cart">
+                            <Badge count={this.props.products.length} />
+                            <span>Ostukorv</span>
+                        </Link>
                     </div>
                 </div>
             </div>
         );
     }
 }
-export default withUser(Header);
+
+const mapStateToProps = (state) => ({
+    products: state.cart.products
+});
+
+export default withUser(connect(mapStateToProps)(Header));

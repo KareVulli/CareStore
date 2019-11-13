@@ -7,6 +7,7 @@
 @import "spacings";
 @import "list";
 @import "text";
+@import "cart_badge";
 
 @import "pages/product";
 
@@ -92,10 +93,12 @@ a.link {
         text-decoration: none;
         color: $foreground;
         padding-right: 1rem;
+        display: inline-flex;
+        align-items: center;
 
         .navbar-icon {
             margin-right: 0.5rem;
-            color: $primaryColor;
+            color: rgb(200, 200, 200);
         }
     }
 
@@ -114,10 +117,10 @@ a.link {
             transform: scaleX(0);  
             transition: transform .1s ease-in-out;
         }
+    }
 
-        &:hover:after {
-            transform: scaleX(1);
-        }
+    .navbar-item:hover span:last-child:after {
+        transform: scaleX(1);
     }
 
     .navbar-logo {
@@ -125,6 +128,8 @@ a.link {
     }
 
 }
+
+
 
 .products {
     margin-top: 2rem;
