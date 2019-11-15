@@ -12,7 +12,7 @@ export default (WrappedComponent) => {
 
         render() {
             if (!this.props.isLoggedIn) {
-                return <Redirect to="/login" />;
+                return <Redirect to="/" />;
             }
             return <WrappedComponent {...this.props} />;
         }

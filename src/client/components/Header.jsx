@@ -38,7 +38,7 @@ class Header extends React.Component {
 
         return (
             <div className="navbar-container">
-                <div className="navbar">
+                <div className="navbar container">
                     <div className="row middle-xs">
                         <div className="col-xs-auto col-sm-6">
                             <Link to="/">

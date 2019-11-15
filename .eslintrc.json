@@ -35,5 +35,12 @@
         "react/static-property-placement": ["error", "static public field"],
         "react/forbid-prop-types": [0],
         "react/sort-comp": [0]
+    },
+    "settings": {
+        "import/resolver": {
+            "node": {
+                "extensions": [".js", ".jsx", ".scss", ".css"]
+            }
+        }
     }
 }

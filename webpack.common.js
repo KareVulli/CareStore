@@ -44,7 +44,7 @@ module.exports = {
                 loader: 'babel-loader'
             },
             {
-                test: /\.s[ac]ss$/i,
+                test: /\.(sa|sc|c)ss$/i,
                 use: [
                     {
                         loader: MiniCssExtractPlugin.loader
@@ -56,7 +56,7 @@ module.exports = {
         ]
     },
     resolve: {
-        extensions: ['.js', '.jsx', '.scss']
+        extensions: ['.js', '.jsx', '.scss', '.css']
     },
     optimization: {
         moduleIds: 'hashed',

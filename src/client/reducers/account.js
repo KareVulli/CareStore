@@ -27,8 +27,16 @@ function onLogin(state, action) {
     });
 }
 
+function onLogout(state) {
+    return produce(state, (draft) => {
+        draft.token = null;
+        draft.user = null;
+    });
+}
+
 export default createReducer(initialState, {
     ON_CHECK_EMAIL: onCheckEmail,
     ON_REGISTER: onRegister,
-    ON_LOGIN: onLogin
+    ON_LOGIN: onLogin,
+    LOGOUT: onLogout
 });

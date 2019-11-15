@@ -1,0 +1,15 @@
+div.toast-container {
+    top: 6rem;
+
+    .toast {
+        background: $background-light;
+    }
+
+    .toast-body {
+        
+    }
+
+    .toast-progress {
+        background: $primaryColor;
+    }
+}
