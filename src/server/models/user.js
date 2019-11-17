@@ -70,7 +70,12 @@ const User = new mongoose.Schema({
             type: Date,
             default: Date.now
         }
-    }]
+    }],
+    admin: {
+        type: Boolean,
+        required: true,
+        default: false
+    }
 }, {timestamps: true});
 
 export default mongoose.model('User', User);

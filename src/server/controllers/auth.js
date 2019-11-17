@@ -10,7 +10,7 @@ class AuthController {
         if (user && bcrypt.compareSync(req.body.password, user.password)) {
             delete user.password;
             delete user.oldPasswords;
-            const token = jwt.sign({userId: user._id}, process.env.JWT_SECRET, {expiresIn: '1h'});
+            const token = jwt.sign({userId: user._id, admin: user.admin}, process.env.JWT_SECRET, {expiresIn: '1h'});
             res.json({message: 'Logged in successfully', token: token, user: user});
         } else {
             res.status(400).json({message: 'Invalid email or password'});

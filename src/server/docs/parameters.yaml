@@ -1,0 +1,20 @@
+components:
+  parameters:
+    userId:
+      name: userId
+      in: path
+      description: The ID of the user whose carts to manage
+      schema:
+        type: string
+      required: true
+      example:
+        5da9419676e6b80fbcafa336
+    cartId:
+      name: cartId
+      in: path
+      description: The ID of the user's cart
+      schema:
+        type: string
+      required: true
+      example:
+        5da9419676e6b80fbcafa336

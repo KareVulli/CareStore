@@ -2,6 +2,8 @@
   get:
     tags:
       - users
+    security:
+      - TokenAuth: []
     description: Returns all users
     responses:
       200:
@@ -10,6 +12,8 @@
           application/json:
             schema:
               $ref: '#/components/schemas/ArrayOfUsers'
+      401:
+        $ref: '#/components/responses/Unauthorized'
 
   post:
     tags:
@@ -40,6 +44,8 @@
   delete:
     tags:
       - users
+    security:
+      - TokenAuth: []
     description: Delete all users
     responses:
       200:
@@ -53,11 +59,15 @@
                   type: string
             example:
               message: Users purged
+      401:
+        $ref: '#/components/responses/Unauthorized'
 
 /users/{userId}:
   get:
     tags:
       - users
+    security:
+      - TokenAuth: []
     description: Gets a user
     parameters:
       - name: userId
@@ -75,9 +85,13 @@
           application/json:
             schema:
               $ref: '#/components/schemas/User'
+      401:
+        $ref: '#/components/responses/Unauthorized'
   delete:
     tags:
       - users
+    security:
+      - TokenAuth: []
     description: Delete a single user
     parameters:
       - name: userId
@@ -100,6 +114,8 @@
                   type: string
             example:
               message: User deleted
+      401:
+        $ref: '#/components/responses/Unauthorized'
       422:
         $ref: '#/components/responses/InvalidInput'
 

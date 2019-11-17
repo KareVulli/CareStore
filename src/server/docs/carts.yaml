@@ -1,0 +1,123 @@
+/users/{userId}/carts:
+  parameters:
+    - $ref: '#/components/parameters/userId'
+  get:
+    tags:
+      - carts
+    security:
+      - TokenAuth: []
+    description: Returns user carts
+    responses:
+      200:
+        description: An array of carts
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ArrayOfCarts'
+      401:
+        $ref: '#/components/responses/Unauthorized'
+
+  post:
+    tags:
+      - carts
+    security:
+      - TokenAuth: []
+    description: Create a new cart
+    requestBody:
+      description: A JSON object containing new cart
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Cart'
+    responses:
+      201:
+        description: Created a new cart successfully
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                message:
+                  type: string
+            example:
+              message: Cart created
+      401:
+        $ref: '#/components/responses/Unauthorized'
+      422:
+        $ref: '#/components/responses/InvalidInput'
+
+/users/{userId}/carts/active:
+  parameters:
+    - $ref: '#/components/parameters/userId'
+  get:
+    tags:
+      - carts
+    security:
+      - TokenAuth: []
+    description: Returns user's active cart or creates one if no active cart exists
+    responses:
+      200:
+        description: Existing cart
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Cart'
+      201:
+        description: New cart
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Cart'
+      401:
+        $ref: '#/components/responses/Unauthorized'
+
+
+/users/{userId}/carts/{cartId}:
+  parameters:
+    - $ref: '#/components/parameters/userId'
+    - $ref: '#/components/parameters/cartId'
+  get:
+    tags:
+      - carts
+    security:
+      - TokenAuth: []
+    description: Gets a specific cart
+    responses:
+      200:
+        description: A cart
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Cart'
+      401:
+        $ref: '#/components/responses/Unauthorized'
+  put:
+    tags:
+      - carts
+    security:
+      - TokenAuth: []
+    description: Add or remove an item in user's cart
+    requestBody:
+      description: A JSON object containing new cart
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CartItem'
+    responses:
+      200:
+        description: Updated a cart successfully
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                message:
+                  type: string
+            example:
+              message: Cart updated
+      401:
+        $ref: '#/components/responses/Unauthorized'
+      422:
+        $ref: '#/components/responses/InvalidInput'

@@ -48,6 +48,8 @@
   post:
     tags:
       - products
+    security:
+      - TokenAuth: []
     description: Add a new product or products
     requestBody:
       description: A JSON object containing Product or array of Products
@@ -75,12 +77,16 @@
                   type: string
             example:
               message: Product created
+      401:
+        $ref: '#/components/responses/Unauthorized'
       422:
         $ref: '#/components/responses/InvalidInput'
 
   delete:
     tags:
       - products
+    security:
+      - TokenAuth: []
     description: Delete all products
     responses:
       200:
@@ -94,6 +100,8 @@
                   type: string
             example:
               message: Products purged
+      401:
+        $ref: '#/components/responses/Unauthorized'
 
 /product/{productId}:
   get:
@@ -122,6 +130,8 @@
   delete:
     tags:
       - products
+    security:
+      - TokenAuth: []
     description: Delete a single product
     parameters:
       - name: productId
@@ -144,5 +154,7 @@
                   type: string
             example:
               message: Product deleted
+      401:
+        $ref: '#/components/responses/Unauthorized'
       422:
         $ref: '#/components/responses/InvalidInput'
