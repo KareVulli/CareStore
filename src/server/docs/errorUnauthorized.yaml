@@ -10,14 +10,17 @@ components:
               message: 
                 type: string
           examples:
+            No token provided:
+              value:
+                message: 'No token provided'
             Token invalid:
               value:
                 message: 'invalid token'
             Token expired:
               value:
                 message: 'jwt expired'
-            No token provided:
+            Not enough permissions:
               value:
-                message: 'No token provided'
+                message: 'Insufficient permissions'
                   
               

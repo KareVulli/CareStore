@@ -14,14 +14,22 @@ class UsersController extends BaseController {
     }
 
     async get(req, res) {
-        res.json(await User.findOne({_id: req.params.id}, {oldPasswords: 0, password: 0}));
+        if (!res.locals.user.admin && res.locals.user.userId !== req.params.userId) {
+            return res.status(401).json({message: 'Insufficient permissions'});
+        }
+        return res.json(await User.findOne({_id: req.params.userId}, {oldPasswords: 0, password: 0}));
     }
 
     async create(req, res) {
         try {
             const hash = bcrypt.hashSync(req.body.password, 10);
             req.body.password = hash;
-            const doc = new User(req.body);
+            const doc = new User({
+                firstname: req.body.firstname,
+                lastname: req.body.lastname,
+                email: req.body.email,
+                password: req.body.password
+            });
             await doc.save();
             res.status(201).json({
                 message: 'User created'
@@ -31,6 +39,16 @@ class UsersController extends BaseController {
                 message: err.message
             });
         }
+    }
+
+    async delete(req, res) {
+        if (!res.locals.user.admin && res.locals.user.userId !== req.params.userId) {
+            return res.status(401).json({message: 'Insufficient permissions'});
+        }
+        await this.Model.findByIdAndRemove(req.params.userId);
+        return res.json({
+            message: 'User deleted'
+        });
     }
 
     async isNewEmail(req, res) {

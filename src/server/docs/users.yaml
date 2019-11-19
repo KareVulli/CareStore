@@ -68,11 +68,11 @@
       - users
     security:
       - TokenAuth: []
-    description: Gets a user
+    description: Gets a user. Normal user can only get his own user data. Admin has access to all users.
     parameters:
       - name: userId
         in: path
-        description: The ID of the user to get
+        description: The ID of the user to get.
         schema:
           type: string
         required: true
@@ -92,7 +92,7 @@
       - users
     security:
       - TokenAuth: []
-    description: Delete a single user
+    description: Delete a single user. Normal user can only delete his own user. Admin can delete any user.
     parameters:
       - name: userId
         in: path

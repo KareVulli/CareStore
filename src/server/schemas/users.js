@@ -1,5 +1,5 @@
 /* eslint-disable newline-per-chained-call */
-import {body} from 'express-validator';
+import {body, param} from 'express-validator';
 
 
 export default {
@@ -20,5 +20,8 @@ export default {
     login: [
         body('email').isString().trim(),
         body('password').isString()
+    ],
+    userId: [
+        param('userId').isMongoId()
     ]
 };

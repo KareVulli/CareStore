@@ -28,6 +28,10 @@ import mongoose from 'mongoose';
  *           type: string
  *           writeOnly: true
  *           example: P2$$w0rd
+ *         admin:
+ *           type: boolean
+ *           readOnly: true
+ *           example: false
  *         createdAt:
  *           type: string
  *           format: date-time

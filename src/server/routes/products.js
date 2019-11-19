@@ -2,6 +2,7 @@
 import express from 'express';
 import Product from '../models/product';
 import validation from '../middleware/validation';
+import authorization from '../middleware/authorization';
 import productSchemas from '../schemas/products';
 
 const router = express.Router();
@@ -21,25 +22,13 @@ router.get('/products', async (req, res) => {
     res.json(products);
 });
 
-router.post('/products', validation(productSchemas.products), async (req, res) => {
+router.post('/products', authorization(true), validation(productSchemas.product), async (req, res) => {
     try {
-        if (Array.isArray(req.body)) {
-            const promises = [];
-            req.body.forEach((product) => {
-                const doc = new Product(product);
-                promises.push(doc.save());
-            });
-            await Promise.all(promises);
-            res.status(201).json({
-                message: 'Products created'
-            });
-        } else {
-            const doc = new Product(req.body);
-            await doc.save();
-            res.status(201).json({
-                message: 'Product created'
-            });
-        }
+        const doc = new Product(req.body);
+        await doc.save();
+        res.status(201).json({
+            message: 'Product created'
+        });
     } catch (err) {
         res.status(400).json({
             message: err.message
@@ -47,19 +36,19 @@ router.post('/products', validation(productSchemas.products), async (req, res) =
     }
 });
 
-router.delete('/products', async (req, res) => {
+router.delete('/products', authorization(true), async (req, res) => {
     await Product.deleteMany({});
     res.json({
         message: 'Products purged'
     });
 });
 
-router.get('/product/:product', async (req, res) => {
-    res.json(await Product.findOne({_id: req.params.product}));
+router.get('/product/:productId', validation(productSchemas.productId), async (req, res) => {
+    res.json(await Product.findOne({_id: req.params.productId}));
 });
 
-router.delete('/product/:product', async (req, res) => {
-    await Product.findByIdAndRemove(req.params.product);
+router.delete('/product/:productId', authorization(true), validation(productSchemas.productId), async (req, res) => {
+    await Product.findByIdAndRemove(req.params.productId);
     res.json({
         message: 'Product deleted'
     });

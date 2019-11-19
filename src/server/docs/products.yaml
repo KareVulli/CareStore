@@ -50,21 +50,14 @@
       - products
     security:
       - TokenAuth: []
-    description: Add a new product or products
+    description: Add a new product
     requestBody:
-      description: A JSON object containing Product or array of Products
+      description: A JSON object containing a new Product
       required: true
       content:
         application/json:
           schema:
-            oneOf:
-            - $ref: '#/components/schemas/Product'
-            - $ref: '#/components/schemas/ArrayOfProducts'
-          examples:
-            product:
-              $ref: '#/components/examples/NewProduct'
-            products:
-              $ref: '#/components/examples/NewArrayOfProducts'
+            $ref: '#/components/schemas/Product'
     responses:
       201:
         description: Added product successfully

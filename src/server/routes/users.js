@@ -12,7 +12,7 @@ router.delete('/users', authorization(true), (req, res) => UsersController.delet
 
 router.get('/users/by-email', (req, res) => UsersController.isNewEmail(req, res));
 
-router.get('/users/:id', authorization(), (req, res) => UsersController.get(req, res));
-router.delete('/users/:id', authorization(), (req, res) => UsersController.delete(req, res));
+router.get('/users/:userId', authorization(), validation(userSchemas.userId), (req, res) => UsersController.get(req, res));
+router.delete('/users/:userId', authorization(), validation(userSchemas.userId), (req, res) => UsersController.delete(req, res));
 
 export default router;
