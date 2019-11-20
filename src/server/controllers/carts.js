@@ -1,6 +1,5 @@
 /* eslint-disable class-methods-use-this */
 /* eslint-disable no-underscore-dangle */
-import bcrypt from 'bcrypt';
 import BaseController from './base';
 import Cart from '../models/cart';
 
@@ -73,12 +72,46 @@ class CartsController extends BaseController {
         });
     }
 
-    async isNewEmail(req, res) {
-        const user = await User.findOne({email: req.query.email});
-        if (!user) {
-            res.json({found: false, message: 'No user with given email exists'});
-        } else {
-            res.json({found: true, message: 'User with given email already exists'});
+    async addProduct(req, res) {
+        if (!res.locals.user.admin && res.locals.user.userId !== req.params.userId) {
+            return res.status(401).json({message: 'Insufficient permissions'});
+        }
+        try {
+            const cart = await Cart.findById(req.params.cartId);
+            if (cart) {
+                let index;
+                let item = null;
+                for (index = 0; index < cart.items.length; index += 1) {
+                    const row = cart.items[index];
+                    if (row.productId.equals(req.body.productId)) {
+                        item = row;
+                        break;
+                    }
+                }
+
+                if (item) {
+                    console.log('item exists');
+                    if (req.body.quantity <= 0) {
+                        cart.items.splice(index, 1);
+                    } else {
+                        item.quantity = req.body.quantity;
+                    }
+                } else if (req.body.quantity > 0) {
+                    console.log('add item');
+                    cart.items.push({
+                        productId: req.body.productId,
+                        quantity: req.body.quantity
+                    });
+                }
+                await cart.save();
+            }
+            return res.status(200).json({
+                message: 'Cart updated'
+            });
+        } catch (err) {
+            return res.status(400).json({
+                message: err.message
+            });
         }
     }
 }

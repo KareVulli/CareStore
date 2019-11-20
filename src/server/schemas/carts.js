@@ -1,12 +1,12 @@
-import {param} from 'express-validator';
+import {param, body} from 'express-validator';
 
 const cartId = [
     param('cartId').isMongoId()
 ];
 
 const cartItem = [
-    param('productId').isMongoId(),
-    param('quantity').isInt()
+    body('productId').isMongoId(),
+    body('quantity').isInt()
 ];
 
 export default {cartId, cartItem};

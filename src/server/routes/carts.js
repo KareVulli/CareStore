@@ -13,7 +13,6 @@ router.post('/users/:userId/carts', authorization(), validation(userSchemas.user
 router.get('/users/:userId/carts/active', authorization(), validation(userSchemas.userId), (req, res) => CartsController.getActive(req, res));
 
 router.get('/users/:userId/carts/:cartId', authorization(), validation([...userSchemas.userId, ...cartSchemas.cartId]), (req, res) => CartsController.get(req, res));
-// TODO:
-// router.put('/users/:userId/carts/:cartId', authorization(), validation([...userSchemas.userId, ...cartSchemas.cartId]), (req, res) => CartsController.get(req, res));
+router.put('/users/:userId/carts/:cartId', authorization(), validation([...userSchemas.userId, ...cartSchemas.cartId, ...cartSchemas.cartItem]), (req, res) => CartsController.addProduct(req, res));
 
 export default router;
