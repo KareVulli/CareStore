@@ -6,6 +6,7 @@ import swaggerUI from 'swagger-ui-express';
 import productRoutes from './routes/products';
 import userRoutes from './routes/users';
 import authRoutes from './routes/auth';
+import cartRoutes from './routes/carts';
 import 'dotenv/config';
 import './utils/db';
 
@@ -42,6 +43,7 @@ app.use(express.static('dist', {
 app.use('/api', productRoutes);
 app.use('/api', userRoutes);
 app.use('/api', authRoutes);
+app.use('/api', cartRoutes);
 
 app.use('/api/docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 app.use('/api/docs.json', (req, res) => {

@@ -18,6 +18,10 @@ import mongoose from 'mongoose';
  *         userId:
  *           type: string
  *           example: 5da9419676e6b80fbcafa336
+ *         active:
+ *           type: boolean
+ *           readOnly: true
+ *           example: true
  *         items:
  *           type: array
  *           items:
@@ -62,7 +66,12 @@ const Cart = new mongoose.Schema({
             type: Number,
             required: true
         }
-    }]
+    }],
+    active: {
+        type: Boolean,
+        required: true,
+        default: true
+    }
 }, {timestamps: true});
 
 export default mongoose.model('Cart', Cart);

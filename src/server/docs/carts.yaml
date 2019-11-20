@@ -23,13 +23,6 @@
     security:
       - TokenAuth: []
     description: Create a new cart
-    requestBody:
-      description: A JSON object containing new cart
-      required: true
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Cart'
     responses:
       201:
         description: Created a new cart successfully
