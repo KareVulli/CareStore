@@ -5,26 +5,17 @@ import CartItem from './CartItem';
 
 export default class CartList extends React.Component {
     static propTypes = {
-        items: PropTypes.array.isRequired,
+        cart: PropTypes.array.isRequired,
         loading: PropTypes.bool.isRequired
     };
 
     render() {
         let i = 0;
-        const items = this.props.items.map((item) => {
+        const items = this.props.cart.map((item) => {
             i += 1;
-            return (
-                <CartItem
-                    key={i}
-                    id={item._id}
-                    name={item.name}
-                    price={item.price}
-                    image={item.image}
-                    quantity={item.quantity}
-                />
-            );
+            return <CartItem key={i} item={item} />;
         });
-        if (!this.props.loading && !this.props.items.length) {
+        if (!this.props.loading && !this.props.cart.length) {
             return (
                 <div className="row">
                     <div className="col-xs center-xs">

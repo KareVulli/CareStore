@@ -5,24 +5,23 @@ import ItemsList from '../components/ItemsList';
 import Checkbox from '../components/Checkbox';
 import Dropdown from '../components/Dropdown';
 import {
-    loadProducts, toggleCategory, setSortBy, FETCH_PRODUCTS
+    loadProducts, toggleCategory, setSortBy
 } from '../actions/products';
+import {
+    areProductsLoading, getSortBy, getSelectedCategories, getProducts
+} from '../selectors';
 
 class Products extends React.Component {
     static propTypes = {
         selectedCategories: PropTypes.array.isRequired,
         products: PropTypes.array.isRequired,
         sortBy: PropTypes.string.isRequired,
-        productsRequest: PropTypes.object,
+        loading: PropTypes.bool.isRequired,
 
         loadProducts: PropTypes.func.isRequired,
         toggleCategory: PropTypes.func.isRequired,
         setSortBy: PropTypes.func.isRequired
     };
-
-    static defaultProps = {
-        productsRequest: null
-    }
 
     constructor(props) {
         super(props);
@@ -56,11 +55,6 @@ class Products extends React.Component {
     }
 
     render() {
-        let loading = false;
-        if (this.props.productsRequest && this.props.productsRequest.loading) {
-            loading = true;
-        }
-
         return (
             <div>
                 <div className="container">
@@ -82,11 +76,11 @@ class Products extends React.Component {
                         </div>
                     </div>
                     <div className="row middle-xs">
-                        <div className="col-xs end-xs">
+                        <div className="col-xs">
                             <p>{`Leitud tooteid: ${this.props.products.length}`}</p>
                         </div>
                     </div>
-                    <ItemsList items={this.props.products} loading={loading} />
+                    <ItemsList items={this.props.products} loading={this.props.loading} />
                 </div>
             </div>
         );
@@ -94,10 +88,10 @@ class Products extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-    products: state.products.products,
-    selectedCategories: state.products.selectedCategories,
-    sortBy: state.products.sortBy,
-    productsRequest: state.requests[FETCH_PRODUCTS]
+    products: getProducts(state),
+    selectedCategories: getSelectedCategories(state),
+    sortBy: getSortBy(state),
+    loading: areProductsLoading(state)
 });
 
 const mapDispatchToProps = (dispatch) => ({

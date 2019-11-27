@@ -6,11 +6,12 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faUserCircle} from '@fortawesome/free-solid-svg-icons';
 import withUser from '../hocs/user';
 import Badge from './Badge';
+import {getCart} from '../selectors';
 
 class Header extends React.Component {
     static propTypes = {
         user: PropTypes.object,
-        products: PropTypes.array.isRequired,
+        cart: PropTypes.array.isRequired,
         isLoggedIn: PropTypes.bool.isRequired
     };
 
@@ -48,8 +49,8 @@ class Header extends React.Component {
                         {accountArea}
                         <Link className="navbar-item" to="/cart">
                             <Badge
-                                count={this.props.products.reduce(
-                                    (acc, product) => acc + product.quantity, 0
+                                count={this.props.cart.reduce(
+                                    (acc, item) => acc + item.quantity, 0
                                 )}
                             />
                             <span>Ostukorv</span>
@@ -62,7 +63,7 @@ class Header extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-    products: state.cart.products
+    cart: getCart(state)
 });
 
 export default withUser(connect(mapStateToProps)(Header));

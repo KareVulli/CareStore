@@ -4,18 +4,15 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import Input from '../components/Input';
 import Button from '../components/Button';
-import {login, FETCH_LOGIN} from '../actions/account';
+import {login} from '../actions/account';
+import {getLoginError} from '../selectors';
 
 class Login extends React.Component {
     static propTypes = {
-        loginRequest: PropTypes.object,
+        error: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]).isRequired,
 
         login: PropTypes.func.isRequired
     };
-
-    static defaultProps = {
-        loginRequest: null
-    }
 
     constructor(props) {
         super(props);
@@ -43,11 +40,11 @@ class Login extends React.Component {
     }
 
     getError() {
-        if (this.props.loginRequest && this.props.loginRequest.error) {
-            if (this.props.loginRequest.error.status === 400) {
+        if (this.props.error) {
+            if (this.props.error.status === 400) {
                 return 'Vigane email või parool';
             }
-            return this.props.loginRequest.error.message;
+            return this.props.error.message;
         }
         return false;
     }
@@ -84,7 +81,7 @@ class Login extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-    loginRequest: state.requests[FETCH_LOGIN]
+    error: getLoginError(state)
 });
 
 const mapDispatchToProps = (dispatch) => ({

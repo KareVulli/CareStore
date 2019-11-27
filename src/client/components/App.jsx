@@ -26,6 +26,7 @@ export default class App extends React.Component {
                     progressClassName="toast-progress"
                     transition={Slide}
                 />
+                <div className="background" />
                 <Switch>
                     <Route path="/" exact component={Products} />
                     <Route path="/login" exact component={Login} />

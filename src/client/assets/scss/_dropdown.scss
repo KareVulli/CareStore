@@ -6,6 +6,8 @@ select {
 
 .dropdown {
     position: relative;
+    
+    background-color: $background;
 
     .dropdown-header {
         display: flex;

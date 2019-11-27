@@ -4,17 +4,18 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import CartList from '../components/CartList';
 import Button from '../components/Button';
+import {getCart} from '../selectors';
 
 class Cart extends React.Component {
     static propTypes = {
-        products: PropTypes.array.isRequired
+        cart: PropTypes.array.isRequired
     };
 
     render() {
-        const total = this.props.products.reduce(
-            (acc, item) => acc + (item.price * item.quantity), 0
+        const total = this.props.cart.reduce(
+            (acc, item) => acc + (item.product.price * item.quantity), 0
         );
-        const count = this.props.products.reduce((acc, product) => acc + product.quantity, 0);
+        const count = this.props.cart.reduce((acc, product) => acc + product.quantity, 0);
         return (
             <div className="container">
                 <div className="row middle-xs">
@@ -29,7 +30,7 @@ class Cart extends React.Component {
                 </div>
                 <div className="row middle-xs">
                     <div className="col-xs-12 col-sm">
-                        <CartList items={this.props.products} loading={false} />
+                        <CartList cart={this.props.cart} loading={false} />
                     </div>
                 </div>
                 <div className="row middle-xs">
@@ -56,7 +57,7 @@ class Cart extends React.Component {
 
 
 const mapStateToProps = (state) => ({
-    products: state.cart.products
+    cart: getCart(state)
 });
 
 

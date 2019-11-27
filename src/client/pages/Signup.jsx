@@ -7,22 +7,19 @@ import Input from '../components/Input';
 import Button from '../components/Button';
 import Checkbox from '../components/Checkbox';
 import {
-    register, checkEmail, FETCH_REGISTER
+    register, checkEmail
 } from '../actions/account';
+import {isEmailUnique, isRegisterLoading, getRegisterError} from '../selectors';
 
 class Signup extends React.Component {
     static propTypes = {
-        emailUnique: PropTypes.bool,
-        registerRequest: PropTypes.object,
+        emailUnique: PropTypes.bool.isRequired,
+        loading: PropTypes.bool.isRequired,
+        error: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]).isRequired,
 
         checkEmail: PropTypes.func.isRequired,
         register: PropTypes.func.isRequired
     };
-
-    static defaultProps = {
-        emailUnique: null,
-        registerRequest: null
-    }
 
     constructor(props) {
         super(props);
@@ -67,7 +64,7 @@ class Signup extends React.Component {
             });
             return;
         }
-        if (this.isLoading() || this.props.emailUnique !== true) {
+        if (this.props.loading || this.props.emailUnique !== true) {
             return;
         }
         this.props.register({
@@ -80,31 +77,27 @@ class Signup extends React.Component {
 
     getValidationError(field) {
         if (
-            this.props.registerRequest
-            && this.props.registerRequest.error
-            && this.props.registerRequest.error.response
-            && this.props.registerRequest.error.response.errors
+            this.props.error
+            && this.props.error.response
+            && this.props.error.response.errors
         ) {
-            return this.props.registerRequest.error.response.errors[field] || false;
+            return this.props.error.response.errors[field] || false;
         }
         return false;
     }
 
     getError() {
-        if (this.props.registerRequest && this.props.registerRequest.error) {
-            if (this.props.registerRequest.error.status === 422) {
+        if (this.props.error) {
+            if (this.props.error.status === 422) {
                 return 'Palun kontrolli sisestatud väärtusi';
             }
-            return this.props.registerRequest.error.message;
+            return this.props.error.message;
         }
         return false;
     }
 
     isLoading() {
-        if (this.props.registerRequest && this.props.registerRequest.loading) {
-            return true;
-        }
-        return false;
+        return this.props.loading;
     }
 
     render() {
@@ -121,7 +114,7 @@ class Signup extends React.Component {
                             <Input title="Parool" name="password" type="password" initialValue={this.state.password} onChange={this.onChange} error={this.getValidationError('password')} />
                             <Checkbox name="tos" text="Olen nõus meie TOS'idega" checked={this.state.tos} onChange={this.onTosChecked} error={this.state.tosError} />
                             <div className="row middle-xs">
-                                <div className="col-xs-12 center-xs col-sm-12 start-sm">
+                                <div className="col-xs-12 col-sm-12 start-sm">
                                     <Button title="Registeeru" rule="submit" disabled={this.isLoading()} />
                                     {this.isLoading() ? <span className="margin-left-2">Laadimine...</span> : null}
                                     {this.getError() ? <span className="margin-left-2 error">{this.getError()}</span> : null}
@@ -136,8 +129,9 @@ class Signup extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-    emailUnique: state.account.emailUnique,
-    registerRequest: state.requests[FETCH_REGISTER]
+    emailUnique: isEmailUnique(state),
+    loading: isRegisterLoading(state),
+    error: getRegisterError(state)
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -2,9 +2,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
+import {getUser} from '../selectors';
 
 const mapStateToProps = (state) => ({
-    user: state.account.user
+    user: getUser(state)
 });
 
 export default (WrappedComponent) => {
