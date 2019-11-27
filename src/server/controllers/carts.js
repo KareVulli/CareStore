@@ -27,7 +27,7 @@ class CartsController extends BaseController {
             return res.status(401).json({message: 'Insufficient permissions'});
         }
         try {
-            const cart = await Cart.findOne({userId: req.params.userId, active: true});
+            const cart = await Cart.findOne({userId: req.params.userId, active: true}).populate('items.product');
             if (!cart) {
                 const doc = new Cart({
                     userId: req.params.userId

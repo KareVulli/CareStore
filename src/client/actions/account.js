@@ -19,8 +19,8 @@ function onCheckEmail(response) {
 
 function onRegister() {
     return (dispatch) => {
-        dispatch(push('/signup-success'));
-        dispatch(success('Registeeritud edukalt'));
+        dispatch(push('/login'));
+        dispatch(success('Registeeritud edukalt! Palun logige sisse, et jätkata'));
     };
 }
 

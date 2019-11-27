@@ -7,7 +7,6 @@ import Products from '../pages/Products';
 import Product from '../pages/Product';
 import Login from '../pages/Login';
 import Signup from '../pages/Signup';
-import SuccessfulSignup from '../pages/SuccessfulSignup';
 import Profile from '../pages/Profile';
 import NotFound from '../pages/NotFound';
 import Cart from '../pages/Cart';
@@ -30,7 +29,6 @@ export default class App extends React.Component {
                 <Switch>
                     <Route path="/" exact component={Products} />
                     <Route path="/login" exact component={Login} />
-                    <Route path="/signup-success" exact component={SuccessfulSignup} />
                     <Route path="/signup" exact component={Signup} />
                     <Route path="/profile" exact component={Profile} />
                     <Route path="/product/:product" exact component={Product} />

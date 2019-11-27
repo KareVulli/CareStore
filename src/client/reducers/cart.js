@@ -4,7 +4,8 @@ import produce from 'immer';
 import createReducer from '../utils/createReducer';
 
 const initialState = {
-    products: []
+    products: [],
+    activeCartId: null
 };
 
 function addProduct(state, action) {
@@ -27,7 +28,21 @@ function removeProduct(state, action) {
     });
 }
 
+function onActiveCart(state, action) {
+    return produce(state, (draft) => {
+        draft.activeCartId = action._id;
+        draft.products = [];
+        action.items.forEach((item) => {
+            draft.products.push({
+                ...item.product,
+                quantity: item.quantity
+            });
+        });
+    });
+}
+
 export default createReducer(initialState, {
     ADD_PRODUCT: addProduct,
-    REMOVE_PRODUCT: removeProduct
+    REMOVE_PRODUCT: removeProduct,
+    ON_ACTIVE_CART: onActiveCart
 });

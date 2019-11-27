@@ -74,4 +74,11 @@ const Cart = new mongoose.Schema({
     }
 }, {timestamps: true});
 
+Cart.virtual('items.product', {
+    ref: 'Product',
+    localField: 'items.productId',
+    foreignField: '_id',
+    justOne: true
+});
+
 export default mongoose.model('Cart', Cart);

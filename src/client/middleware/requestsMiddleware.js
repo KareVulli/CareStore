@@ -2,7 +2,7 @@ import axios from 'axios';
 import {requestStart, requestError, requestEnd} from '../actions/requests';
 import {REQUEST} from '../utils/requestAction';
 
-export default ({dispatch}) => (next) => (action) => {
+export default ({getState, dispatch}) => (next) => (action) => {
     next(action);
 
     if (action.type !== REQUEST) return;
@@ -22,10 +22,18 @@ export default ({dispatch}) => (next) => (action) => {
         dispatch(requestStart(label));
     }
 
+    const headers = {};
+    const {token} = getState().account;
+    if (token) {
+        headers.Authorization = `Bearer ${token}`;
+    }
+    console.log('token:', token);
+
     axios
         .request({
             url: url,
             method,
+            headers: headers,
             [dataOrParams]: data
         })
         .then((response) => {
