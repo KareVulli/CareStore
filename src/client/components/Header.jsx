@@ -7,6 +7,7 @@ import {faUserCircle} from '@fortawesome/free-solid-svg-icons';
 import withUser from '../hocs/user';
 import Badge from './Badge';
 import {getCart} from '../selectors';
+import logo from '../assets/images/logo.png';
 
 class Header extends React.Component {
     static propTypes = {
@@ -43,7 +44,7 @@ class Header extends React.Component {
                     <div className="row middle-xs">
                         <div className="col-xs-auto col-sm-6">
                             <Link to="/">
-                                <img className="navbar-logo" src="/assets/images/CareCloud.png" alt="logo" />
+                                <img className="navbar-logo" src={logo} alt="logo" />
                             </Link>
                         </div>
                         {accountArea}

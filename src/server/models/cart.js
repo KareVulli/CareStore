@@ -49,6 +49,20 @@ import mongoose from 'mongoose';
  *         quantity:
  *           type: integer
  *           example: 1
+ *     CartWithProducts:
+ *       allOf:
+ *         - $ref: '#/components/schemas/Cart'
+ *           properties:
+ *             items:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/CartItemWithProduct'
+ *     CartItemWithProduct:
+ *       allOf:
+ *         - $ref: '#/components/schemas/CartItem'
+ *           properties:
+ *             product:
+ *               $ref: '#/components/schemas/Product'
  */
 const Cart = new mongoose.Schema({
     userId: {

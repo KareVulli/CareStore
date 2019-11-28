@@ -2,6 +2,7 @@
 import {push} from 'connected-react-router';
 import {error, success, info} from 'react-toastify-redux';
 import requestAction from '../utils/requestAction';
+import {fetchActiveCart} from './cart';
 
 
 export const FETCH_CHECK_EMAIL = 'FETCH_CHECK_EMAIL';
@@ -35,6 +36,7 @@ function onLogin(response) {
         dispatch({type: ON_LOGIN, token: response.token, user: response.user});
         dispatch(push('/profile'));
         dispatch(success(`Teretulemast tagasi, ${response.user.firstname} 🤗`));
+        dispatch(fetchActiveCart());
     };
 }
 

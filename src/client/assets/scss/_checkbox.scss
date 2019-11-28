@@ -19,6 +19,7 @@
         width: 1.5rem;
         
         border: 1px solid $primaryColor;
+        background-color: rgba($background, 0.8);
     }
 
     label::after {

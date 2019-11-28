@@ -43,18 +43,22 @@ class Product extends React.Component {
         );
         return (
             <div className="container page-product">
-                <div className="card">
-                    <div className="row">
-                        <div className="col-xs-12 col-sm-4 center-xs margin-top-4">
-                            <img className="image" src={this.props.product.image} alt={this.props.product.name} />
-                        </div>
-                        <div className="col-xs-12 col-sm-8">
-                            <h2>{this.props.product.name}</h2>
-                            <p className="text-primary text-large">{`${this.props.product.price} €`}</p>
-                            <p className="product-description">{this.props.product.description}</p>
-                            <div className="row middle-xs">
-                                <div className="col-xs margin-right-2">
-                                    <Button title={button} size="large" onClick={this.onAddToCart} />
+                <div className="row">
+                    <div className="col-xs col-md-12">
+                        <div className="card">
+                            <div className="row">
+                                <div className="col-xs-12 col-sm-4 center-xs margin-top-4">
+                                    <img className="image" src={this.props.product.image} alt={this.props.product.name} />
+                                </div>
+                                <div className="col-xs-12 col-sm-8">
+                                    <h2>{this.props.product.name}</h2>
+                                    <p className="text-primary text-large">{`${this.props.product.price} €`}</p>
+                                    <p className="product-description">{this.props.product.description}</p>
+                                    <div className="row middle-xs">
+                                        <div className="col-xs margin-right-2">
+                                            <Button title={button} size="large" onClick={this.onAddToCart} />
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

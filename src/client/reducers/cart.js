@@ -27,19 +27,10 @@ function updateProduct(state, action) {
     });
 }
 
-/* function removeProduct(state, action) {
-    return produce(state, (draft) => {
-        const index = draft.products.findIndex((product) => product._id === action.productId);
-        if (index !== -1) {
-            draft.products.splice(index, 1);
-        }
-    });
-} */
-
 function onActiveCart(state, action) {
     return produce(state, (draft) => {
-        draft.activeCartId = action._id;
-        draft.products = action.items;
+        draft.activeCartId = action.response._id;
+        draft.cart = action.response.items;
     });
 }
 

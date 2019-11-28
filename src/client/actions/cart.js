@@ -53,13 +53,15 @@ export function removeProduct(product) {
 }
 
 function onActiveCart(response) {
-    return {type: ON_ACTIVE_CART, found: response};
+    return {type: ON_ACTIVE_CART, response};
 }
 
-export function fetchActiveCart(userId) {
-    return requestAction({
-        url: `/api/users/${userId}/carts/active`,
-        onSuccess: onActiveCart,
-        label: FETCH_ACTIVE_CART
-    });
+export function fetchActiveCart() {
+    return (dispatch, getState) => {
+        dispatch(requestAction({
+            url: `/api/users/${getState().account.user._id}/carts/active`,
+            onSuccess: onActiveCart,
+            label: FETCH_ACTIVE_CART
+        }));
+    };
 }

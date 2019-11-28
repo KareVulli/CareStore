@@ -55,13 +55,13 @@
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Cart'
+              $ref: '#/components/schemas/CartWithProducts'
       201:
         description: New cart
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Cart'
+              $ref: '#/components/schemas/CartWithProducts'
       401:
         $ref: '#/components/responses/Unauthorized'
 

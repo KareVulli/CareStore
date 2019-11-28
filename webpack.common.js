@@ -1,6 +1,5 @@
 /* eslint-disable */
 const path = require('path');
-const CopyPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -13,9 +12,6 @@ module.exports = {
         publicPath: '/'
     },
     plugins: [
-        new CopyPlugin([
-            { from: 'public' }
-        ]),
         new CleanWebpackPlugin(),
         new MiniCssExtractPlugin({
             filename: 'assets/css/[name].[contenthash].css'
@@ -56,7 +52,12 @@ module.exports = {
             {
                 test: /\.(png|svg|jpg|gif)$/,
                 use: [
-                    'file-loader'
+                    {
+                        loader: 'file-loader',
+                        options: {
+                            name: 'assets/images/[contenthash].[ext]'
+                        }
+                    }
                 ]
             },
         ]
