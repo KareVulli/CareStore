@@ -24,6 +24,9 @@ module.exports = {
             links: [
                 'https://fonts.googleapis.com/css?family=Open+Sans&display=swap'
             ],
+            scripts: [
+                'https://js.stripe.com/v3/'
+            ]
         })
     ],
     module: {

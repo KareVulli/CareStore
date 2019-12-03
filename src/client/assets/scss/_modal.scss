@@ -1,0 +1,29 @@
+.modal {
+    position: fixed;
+    border: 1px solid $primaryColor;
+    background-color: rgba($background-light, 0.8);
+    width: 50%;
+    top: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 100;
+
+    .modal-header {
+        padding-left: 1.5rem;
+        font-weight: bold;
+    }
+
+    .modal-body {
+        padding: 1.5rem;
+    }
+}
+
+.modal-shade {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    // background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+}
