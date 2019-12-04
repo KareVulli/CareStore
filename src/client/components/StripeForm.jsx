@@ -7,6 +7,7 @@ import {
     CardElement, injectStripe
 } from 'react-stripe-elements';
 import Button from './Button';
+import checkout from '../actions/cart';
 
 class StripeForm extends React.Component {
     static propTypes = {
@@ -33,9 +34,24 @@ class StripeForm extends React.Component {
 
     render() {
         return (
-            <form onSubmit={this.handleSubmit}>
+            <form className="stripe-form" onSubmit={this.handleSubmit}>
                 <p className="margin-top-0 margin-bottom-4">Palun sisestage oma pangakaardi andmed, et jätkata...</p>
-                <CardElement className="margin-bottom-4" style={{base: {color: '#ffffff'}}} />
+                <CardElement
+                    className="stripe-card margin-bottom-4"
+                    style={{
+                        base: {
+                            color: '#ffffff',
+                            fontFamily: "'Open Sans', sans-serif",
+                            '::placeholder': {
+                                color: '#aaaaaa'
+                            },
+                            ':focus': {
+                                backgroundColor: '#0000ff88'
+                            }
+                        }
+
+                    }}
+                />
                 <p className="margin-top-0 margin-bottom-4">
                     Summa:
                     <strong>{` ${this.props.sum} €`}</strong>
@@ -51,7 +67,8 @@ class StripeForm extends React.Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-    error: (message) => dispatch(error(message))
+    error: (message) => dispatch(error(message)),
+    checkout: (token) => dispatch(checkout(token))
 });
 
 export default injectStripe(connect(null, mapDispatchToProps)(StripeForm));

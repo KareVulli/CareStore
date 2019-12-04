@@ -114,6 +114,13 @@ class CartsController extends BaseController {
             });
         }
     }
+
+    async checkout(req, res) {
+        console.log(req.body);
+        res.status(200).json({
+            message: 'Checkout'
+        });
+    }
 }
 
 export default new CartsController();

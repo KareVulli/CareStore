@@ -8,8 +8,10 @@ export const REMOVE_PRODUCT = 'REMOVE_PRODUCT';
 export const UPDATE_PRODUCT = 'UPDATE_PRODUCT';
 
 export const FETCH_ACTIVE_CART = 'FETCH_ACTIVE_CART';
+export const FETCH_CHECKOUT = 'FETCH_CHECKOUT';
 
 export const ON_ACTIVE_CART = 'ON_ACTIVE_CART';
+export const ON_CHECKOUT = 'ON_CHECKOUT';
 
 function onUpdateProductFailed() {
     return error('Toote koguse muutmine ebaõnnestus');
@@ -62,6 +64,24 @@ export function fetchActiveCart() {
             url: `/api/users/${getState().account.user._id}/carts/active`,
             onSuccess: onActiveCart,
             label: FETCH_ACTIVE_CART
+        }));
+    };
+}
+
+function onCheckout(response) {
+    console.log(response);
+    return {type: ON_CHECKOUT, response};
+}
+
+export function checkout() {
+    return (dispatch, getState) => {
+        const state = getState();
+        const activeCartId = state.cart.activeCartId;
+        const user = state.account.user;
+        dispatch(requestAction({
+            url: `/api/users/${user._id}/carts/${activeCartId}/checkout`,
+            onSuccess: onCheckout,
+            label: FETCH_CHECKOUT
         }));
     };
 }
