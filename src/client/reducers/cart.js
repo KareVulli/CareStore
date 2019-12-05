@@ -5,7 +5,9 @@ import createReducer from '../utils/createReducer';
 
 const initialState = {
     cart: [],
-    activeCartId: null
+    activeCartId: null,
+    paymentModal: false,
+    pastPayments: []
 };
 
 function updateProduct(state, action) {
@@ -34,7 +36,30 @@ function onActiveCart(state, action) {
     });
 }
 
+function showPaymentModal(state) {
+    return produce(state, (draft) => {
+        draft.paymentModal = true;
+    });
+}
+
+function hidePaymentModal(state) {
+    return produce(state, (draft) => {
+        draft.paymentModal = false;
+    });
+}
+
+function onPastPayments(state, action) {
+    return produce(state, (draft) => {
+        draft.pastPayments = action.response;
+        console.log('onPastPayments:', draft.pastPayments);
+    });
+}
+
+
 export default createReducer(initialState, {
     UPDATE_PRODUCT: updateProduct,
-    ON_ACTIVE_CART: onActiveCart
+    ON_ACTIVE_CART: onActiveCart,
+    SHOW_PAYMENT_MODAL: showPaymentModal,
+    HIDE_PAYMENT_MODAL: hidePaymentModal,
+    ON_PAST_PAYMENTS: onPastPayments
 });

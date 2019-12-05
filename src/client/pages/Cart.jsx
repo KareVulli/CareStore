@@ -17,7 +17,7 @@ class Cart extends React.Component {
         super(props);
 
         this.state = {
-            modalOpen: true
+            modalOpen: false
         };
 
         this.onModalClose = this.onModalClose.bind(this);

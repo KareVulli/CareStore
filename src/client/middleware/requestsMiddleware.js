@@ -42,6 +42,7 @@ export default ({getState, dispatch}) => (next) => (action) => {
             }
         })
         .catch((error) => {
+            console.log(error);
             const response = {};
             if (error.response) {
                 response.status = error.response.status;
@@ -56,7 +57,7 @@ export default ({getState, dispatch}) => (next) => (action) => {
             }
             dispatch(requestError(label, response));
             if (onFailure) {
-                dispatch(onFailure(error));
+                dispatch(onFailure(response, error));
             }
         })
         .finally(() => {

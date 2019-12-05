@@ -1,5 +1,6 @@
 import {FETCH_PRODUCTS, FETCH_PRODUCT} from '../actions/products';
 import {FETCH_REGISTER, FETCH_LOGIN} from '../actions/account';
+import {FETCH_CHECKOUT} from '../actions/cart';
 
 function isRequestLoading(requestName, state) {
     const request = state.requests[requestName];
@@ -26,6 +27,8 @@ export const isEmailUnique = (state) => state.account.emailUnique || false;
 export const isLoggedIn = (state) => !!state.account.token;
 
 export const getCart = (state) => state.cart.cart;
+export const getPastPayments = (state) => state.cart.pastPayments;
+export const isCheckoutLoading = (state) => isRequestLoading(FETCH_CHECKOUT, state);
 
 export const getProduct = (state) => state.products.product;
 export const getProducts = (state) => state.products.products;

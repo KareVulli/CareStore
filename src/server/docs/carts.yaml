@@ -7,6 +7,17 @@
     security:
       - TokenAuth: []
     description: Returns user carts
+    parameters:
+      - name: products
+        in: query
+        description: Set to true to load products data as well
+        schema:
+          type: boolean
+      - name: hide-active
+        in: query
+        description: Set to true to not return active carts
+        schema:
+          type: boolean
     responses:
       200:
         description: An array of carts
@@ -112,5 +123,68 @@
               message: Cart updated
       401:
         $ref: '#/components/responses/Unauthorized'
+      422:
+        $ref: '#/components/responses/InvalidInput'
+
+/users/{userId}/carts/{cartId}/checkout:
+  parameters:
+    - $ref: '#/components/parameters/userId'
+    - $ref: '#/components/parameters/cartId'
+  post:
+    tags:
+      - carts
+    security:
+      - TokenAuth: []
+    description: Checkout cart
+    requestBody:
+      description: A stripe card token
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              token:
+                type: string
+                example: tok_1FmRghHfPd40FifTIYSCPpKy
+    responses:
+      200:
+        description: A successful payment message with cart total sum 
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                message:
+                  type: string
+                total:
+                  type: number
+            example:
+              message: Payment successful
+              total: 13.37
+      400:
+        description: A problem with the payment
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                message:
+                  type: string
+            example:
+              message: Ostukorv on tühi
+      401:
+        $ref: '#/components/responses/Unauthorized'
+      404:
+        description: The specified cart was not found
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                message:
+                  type: string
+            example:
+              message: Cart not found
       422:
         $ref: '#/components/responses/InvalidInput'
