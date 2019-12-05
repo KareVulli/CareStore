@@ -12,4 +12,8 @@ div.toast-container {
     .toast-progress {
         background: $primaryColor;
     }
+
+    .Toastify__toast--error .toast-progress {
+        background: $dangerColor;
+    }
 }
