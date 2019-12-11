@@ -7,29 +7,44 @@ import {
     CardElement, injectStripe
 } from 'react-stripe-elements';
 import Button from './Button';
-import checkout from '../actions/cart';
+import {checkout} from '../actions/cart';
+import {isCheckoutLoading} from '../selectors';
 
 class StripeForm extends React.Component {
     static propTypes = {
         stripe: PropTypes.object.isRequired,
         sum: PropTypes.number.isRequired,
+        checkout: PropTypes.func.isRequired,
+        loading: PropTypes.bool.isRequired,
         error: PropTypes.func.isRequired
     };
 
     constructor(props) {
         super(props);
+        this.state = {
+            stripeLoading: false
+        };
 
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    handleSubmit(e) {
+    async handleSubmit(e) {
         e.preventDefault();
-        try {
-            const token = this.props.stripe.createToken();
-            console.log(token);
-        } catch (err) {
-            this.props.error(err.getMessage());
+        if (this.state.stripeLoading || this.props.loading) {
+            return;
         }
+        this.setState({
+            stripeLoading: true
+        });
+        const result = await this.props.stripe.createToken();
+        if (result.error) {
+            this.props.error(result.error.message);
+        } else {
+            this.props.checkout(result.token.id);
+        }
+        this.setState({
+            stripeLoading: false
+        });
     }
 
     render() {
@@ -44,9 +59,6 @@ class StripeForm extends React.Component {
                             fontFamily: "'Open Sans', sans-serif",
                             '::placeholder': {
                                 color: '#aaaaaa'
-                            },
-                            ':focus': {
-                                backgroundColor: '#0000ff88'
                             }
                         }
 
@@ -58,6 +70,7 @@ class StripeForm extends React.Component {
                 </p>
                 <div className="row">
                     <div className="col-xs end-xs">
+                        {this.state.stripeLoading || this.props.loading ? <span className="margin-right-2">Laadimine...</span> : null}
                         <Button title="Kinnita makse" rule="submit" />
                     </div>
                 </div>
@@ -66,9 +79,13 @@ class StripeForm extends React.Component {
     }
 }
 
+const mapStateToProps = (state) => ({
+    loading: isCheckoutLoading(state)
+});
+
 const mapDispatchToProps = (dispatch) => ({
     error: (message) => dispatch(error(message)),
     checkout: (token) => dispatch(checkout(token))
 });
 
-export default injectStripe(connect(null, mapDispatchToProps)(StripeForm));
+export default injectStripe(connect(mapStateToProps, mapDispatchToProps)(StripeForm));

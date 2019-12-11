@@ -32,7 +32,15 @@ class Product extends React.Component {
 
     render() {
         if (this.props.loading) {
-            return <div className="container"><p>Laen...</p></div>;
+            return (
+                <div className="container page-product">
+                    <div className="row">
+                        <div className="col-xs col-md-12">
+                            <div className="container"><p>Laen...</p></div>
+                        </div>
+                    </div>
+                </div>
+            );
         }
 
         const button = (

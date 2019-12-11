@@ -8,7 +8,13 @@ const presets = [
 ];
 
 const plugins = [
-    '@babel/plugin-proposal-class-properties'
+    '@babel/plugin-proposal-class-properties',
+    [
+        '@babel/plugin-transform-runtime',
+        {
+            regenerator: true
+        }
+    ]
 ];
 
 module.exports = {

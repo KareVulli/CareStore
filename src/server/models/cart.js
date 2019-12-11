@@ -81,6 +81,10 @@ const Cart = new mongoose.Schema({
             required: true
         }
     }],
+    total: {
+        type: Number,
+        required: false
+    },
     active: {
         type: Boolean,
         required: true,
@@ -94,5 +98,13 @@ Cart.virtual('items.product', {
     foreignField: '_id',
     justOne: true
 });
+
+Cart.methods.getTotalSum = function getTotalSum() {
+    let sum = 0;
+    this.items.forEach((item) => {
+        sum += item.product.price * item.quantity;
+    });
+    return sum;
+};
 
 export default mongoose.model('Cart', Cart);

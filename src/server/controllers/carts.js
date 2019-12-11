@@ -1,5 +1,6 @@
 /* eslint-disable class-methods-use-this */
 /* eslint-disable no-underscore-dangle */
+import stripe from 'stripe';
 import BaseController from './base';
 import Cart from '../models/cart';
 
@@ -19,7 +20,15 @@ class CartsController extends BaseController {
         if (!res.locals.user.admin && res.locals.user.userId !== req.params.userId) {
             return res.status(401).json({message: 'Insufficient permissions'});
         }
-        return res.json(await Cart.find({userId: req.params.userId}));
+        const query = {userId: req.params.userId};
+        if (req.query['hide-active']) {
+            console.log('hide-active');
+            query.active = false;
+        }
+        if (req.query.products) {
+            return res.json(await Cart.find(query).sort({createdAt: -1}).populate('items.product'));
+        }
+        return res.json(await Cart.find(query).sort({createdAt: -1}));
     }
 
     async getActive(req, res) {
@@ -66,9 +75,9 @@ class CartsController extends BaseController {
         if (!res.locals.user.admin && res.locals.user.userId !== req.params.userId) {
             return res.status(401).json({message: 'Insufficient permissions'});
         }
-        await this.Model.findByIdAndRemove(req.params.userId);
+        await this.Model.findOneAndRemove({_id: req.params.cartId, userId: req.params.userId});
         return res.json({
-            message: 'User deleted'
+            message: 'Cart deleted'
         });
     }
 
@@ -116,10 +125,43 @@ class CartsController extends BaseController {
     }
 
     async checkout(req, res) {
-        console.log(req.body);
-        res.status(200).json({
-            message: 'Checkout'
-        });
+        if (!res.locals.user.admin && res.locals.user.userId !== req.params.userId) {
+            return res.status(401).json({message: 'Insufficient permissions'});
+        }
+        try {
+            const cart = await Cart.findOne({_id: req.params.cartId, userId: req.params.userId}).populate('items.product');
+            if (cart) {
+                const total = cart.getTotalSum();
+                if (total <= 0) {
+                    throw new Error('Ostukorv on tühi');
+                }
+                const result = await stripe(process.env.STRIPE_SECRET).charges.create({
+                    amount: total * 100,
+                    currency: 'eur',
+                    source: req.body.token,
+                    description: `CareStore makse #${req.params.cartId}`,
+                    metadata: {
+                        userId: req.params.userId,
+                        cartId: req.params.cartId
+                    }
+                });
+                console.log(result);
+                cart.total = total;
+                cart.active = false;
+                cart.save();
+                return res.status(200).json({
+                    message: 'Payment successful',
+                    total: total
+                });
+            }
+            return res.status(404).json({
+                message: 'Cart not found'
+            });
+        } catch (err) {
+            return res.status(400).json({
+                message: err.message
+            });
+        }
     }
 }
 

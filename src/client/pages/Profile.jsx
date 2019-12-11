@@ -7,16 +7,25 @@ import {faSignOutAlt} from '@fortawesome/free-solid-svg-icons';
 import withProtectedPage from '../hocs/protectedPage';
 import Button from '../components/Button';
 import {logout} from '../actions/account';
+import {getPastPayments} from '../selectors';
+import {fetchPastPayments} from '../actions/cart';
+import PaymentsList from '../components/PaymentsList';
 
 class Profile extends React.Component {
     static propTypes = {
         user: PropTypes.object.isRequired,
-        logout: PropTypes.func.isRequired
+        logout: PropTypes.func.isRequired,
+        loadPastPayments: PropTypes.func.isRequired,
+        pastPayments: PropTypes.array.isRequired
     };
 
     constructor(props) {
         super(props);
         this.onLogout = this.onLogout.bind(this);
+    }
+
+    componentDidMount() {
+        this.props.loadPastPayments();
     }
 
     onLogout() {
@@ -58,6 +67,14 @@ class Profile extends React.Component {
                                 </div>
                             </div>
                         </div>
+                        <div className="card">
+                            <div className="row">
+                                <div className="col-xs">
+                                    <h1>Sinu ostud</h1>
+                                    <PaymentsList loading={false} carts={this.props.pastPayments} />
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -65,8 +82,13 @@ class Profile extends React.Component {
     }
 }
 
-const mapDispatchToProps = (dispatch) => ({
-    logout: () => dispatch(logout())
+const mapStateToProps = (state) => ({
+    pastPayments: getPastPayments(state)
 });
 
-export default withProtectedPage(connect(null, mapDispatchToProps)(Profile));
+const mapDispatchToProps = (dispatch) => ({
+    logout: () => dispatch(logout()),
+    loadPastPayments: () => dispatch(fetchPastPayments())
+});
+
+export default withProtectedPage(connect(mapStateToProps, mapDispatchToProps)(Profile));

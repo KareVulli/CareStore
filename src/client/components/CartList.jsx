@@ -6,14 +6,20 @@ import CartItem from './CartItem';
 export default class CartList extends React.Component {
     static propTypes = {
         cart: PropTypes.array.isRequired,
-        loading: PropTypes.bool.isRequired
+        loading: PropTypes.bool.isRequired,
+        itemElement: PropTypes.elementType
     };
+
+    static defaultProps = {
+        itemElement: CartItem
+    }
 
     render() {
         let i = 0;
+        const ItemElement = this.props.itemElement;
         const items = this.props.cart.map((item) => {
             i += 1;
-            return <CartItem key={i} item={item} />;
+            return <ItemElement key={i} item={item} />;
         });
         if (!this.props.loading && !this.props.cart.length) {
             return (
