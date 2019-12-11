@@ -6,7 +6,6 @@ export default (validations) => async (req, res, next) => {
     const errors = validationResult(req).formatWith(errorFormatter);
 
     if (errors.isEmpty()) {
-        console.log('passed');
         next();
     } else {
         // const message = errors.array().join(', ');
